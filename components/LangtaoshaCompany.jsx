@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DollarSign, Users, Activity, UserCheck, TrendingUp } from 'lucide-react';
+import { DollarSign, Activity, TrendingUp, Store } from 'lucide-react';
 
 export const LangtaoshaCompany = ({ 
   langtaoshaData, 
@@ -7,33 +7,54 @@ export const LangtaoshaCompany = ({
   langtaoshaRevenueStructure,
   langtaoshaBusinessRevenue,
   userRole,
-  setActiveTab 
+  setActiveTab,
+  dimension = 'day',
+  setDimension
 }) => {
-  // 联营商户筛选状态：all-全部, fixed-固定租金, direct-直接分成, mixed-保底+流水
-  const [partnerFilter, setPartnerFilter] = useState('all');
-  
-  // 根据筛选条件过滤联营商户
-  const filteredPartnerBusinesses = langtaoshaBusinessRevenue.filter(business => {
-    if (partnerFilter === 'all') return true;
-    if (partnerFilter === 'fixed') return business.rentMode === '固定租金';
-    if (partnerFilter === 'direct') return business.rentMode === '直接分成';
-    if (partnerFilter === 'mixed') return business.rentMode === '保底+流水';
+  const dl = dimension === 'day' ? '本日' : dimension === 'month' ? '本月' : '本年';
+  const fm = v => Math.round(v).toLocaleString('en-US');
+
+  // 商铺筛选状态
+  const [pf, setPf] = useState('mixed');
+  const fpb = langtaoshaBusinessRevenue.filter(b => {
+    if (pf === 'mixed') return b.rentMode === '保底+流水';
+    if (pf === 'direct') return b.rentMode === '直接分成';
+    if (pf === 'fixed') return b.rentMode === '固定租金';
     return true;
   });
 
+  // 计算合计
+  const revenueSubtotal = langtaoshaRevenueStructure.reduce((s, d) => s + d.value, 0);
+  const shopSubtotalQty = fpb.reduce((s, b) => s + b.transactions, 0);
+  const shopSubtotalRev = fpb.reduce((s, b) => s + b.revenue, 0);
+  // 商铺总数
+  const totalShopCount = langtaoshaBusinessRevenue.length;
+  // 固定租金商铺
+  const fixedRentCount = langtaoshaBusinessRevenue.filter(b => b.rentMode === '固定租金').length;
+
   return (
     <div className="space-y-4">
-      {/* 浪淘沙头部信息卡 */}
+      {/* 浪淘沙头部信息卡 - 标题与日期切换同行 */}
       <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-black text-slate-800">浪淘沙经营看板</h2>
-          <span className="text-xs px-3 py-1 rounded-full bg-blue-50 text-blue-700 font-bold">经营区域：岸基沙滩</span>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-bold">岸基沙滩</span>
+            <div className="bg-slate-100 p-0.5 rounded-xl flex shadow-inner">
+              {['day','month','year'].map(d => (
+                <button key={d} onClick={() => setDimension?.(d)}
+                  className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all ${dimension === d ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>
+                  {d === 'day' ? '本日' : d === 'month' ? '本月' : '本年'}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* KPI 数据网格 - 紧凑排版 */}
-      <div className="grid grid-cols-2 gap-3">
-        {/* 总收入 (元) */}
+      {/* KPI 数据网格 */}
+      <div className="space-y-3">
+        {/* 总收入 (元) - 独占一行 */}
         <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-slate-400 text-[10px] font-bold">总收入 (元)</span>
@@ -42,7 +63,7 @@ export const LangtaoshaCompany = ({
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-slate-800 text-base font-black tracking-tight font-mono">¥{langtaoshaData.revenue}</span>
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{fm(langtaoshaData.revenue)}</span>
             <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
               <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
               同比 {langtaoshaData.revenueTrend}
@@ -50,44 +71,49 @@ export const LangtaoshaCompany = ({
           </div>
         </div>
 
-        {/* 总客流 (人次) */}
-        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-slate-400 text-[10px] font-bold">总客流 (人次)</span>
-            <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-              <Users className="w-3 h-3" />
+        {/* 商铺数 + 出租率 - 两排 */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-slate-400 text-[10px] font-bold">商铺数</span>
+              <div className="w-5 h-5 rounded-full bg-orange-50 flex items-center justify-center text-orange-500">
+                <Store className="w-3 h-3" />
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-slate-800 text-base font-black tracking-tight font-mono">{totalShopCount}</span>
             </div>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{langtaoshaData.visitors}</span>
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
-              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-              同比 {langtaoshaData.visitorsTrend}
-            </span>
+
+          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-slate-400 text-[10px] font-bold">出租率</span>
+              <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
+                <Activity className="w-3 h-3" />
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-slate-800 text-base font-black tracking-tight font-mono">{Math.round(fixedRentCount / totalShopCount * 100)}%</span>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
+                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
+                同比 +3.2%
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* 月度计划执行进度 */}
+      {/* 月度计划达成 */}
       <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex items-center gap-1.5">
-            <span className="w-1 h-3.5 bg-blue-600 rounded-full"></span>
-            <h3 className="text-slate-800 text-xs font-bold tracking-wide">月度计划执行进度</h3>
-          </div>
-          <span className="text-[10px] text-slate-400 font-semibold">当期基准预算</span>
+        <div className="flex items-center gap-1.5 mb-3">
+          <span className="w-1 h-3.5 bg-blue-600 rounded-full"></span>
+          <h3 className="text-slate-800 text-xs font-bold tracking-wide">{dimension === 'year' ? '年度计划达成' : '月度计划达成'}</h3>
         </div>
 
         <div className="space-y-3.5">
-          <div className="grid grid-cols-2 gap-2 text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-            <div>
-              <span className="text-slate-400 text-[10px] block">预算目标 (元)</span>
-              <span className="text-slate-700 font-extrabold font-mono text-sm">¥{(langtaoshaData.rawRevenue * 1.15).toFixed(0)}</span>
-            </div>
-            <div className="text-right">
-              <span className="text-slate-400 text-[10px] block">当前达成率</span>
-              <span className="text-blue-600 font-black text-sm">{((langtaoshaData.rawRevenue / (langtaoshaData.rawRevenue * 1.15)) * 100).toFixed(1)}%</span>
-            </div>
+          <div className="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <span className="text-slate-400 text-[10px] font-bold">{dimension === 'year' ? '年度创值计划（6月）' : '月度创值计划（6月）'}</span>
+            <span className="text-slate-700 font-extrabold font-mono text-sm">¥{(langtaoshaData.rawRevenue * 1.15).toFixed(0)}</span>
           </div>
 
           <div className="space-y-2">
@@ -114,151 +140,83 @@ export const LangtaoshaCompany = ({
         </div>
       </div>
 
-      {/* 收入结构分析 - 表格形式 */}
-      <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-3.5 bg-purple-600 rounded-full"></span>
-            <h3 className="text-slate-800 text-xs font-bold tracking-wide">收入结构分析</h3>
-          </div>
-          <span className="text-[10px] text-slate-400 font-semibold">占比结构</span>
+      {/* === 主营业态收入（3列）=== */}
+      <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100">
+        <div className="flex items-center gap-1.5 mb-2">
+          <span className="w-1 h-3.5 bg-purple-600 rounded-full shrink-0"></span>
+          <h3 className="text-slate-800 text-xs font-bold">主营业态收入（{dl}）</h3>
         </div>
-
-        {/* 表格头 */}
-        <div className="grid grid-cols-4 gap-2 mb-2 pb-2 border-b border-slate-200">
-          <div className="text-[10px] text-slate-500 font-bold">类别</div>
-          <div className="text-[10px] text-slate-500 font-bold text-right">收入金额</div>
-          <div className="text-[10px] text-slate-500 font-bold text-right">占比</div>
-          <div className="text-[10px] text-slate-500 font-bold text-center">趋势</div>
+        <div className="grid grid-cols-[1fr_100px_70px] text-[10px] text-slate-500 font-bold mb-1 pb-1.5 border-b border-slate-200">
+          <div>业态</div>
+          <div className="text-right">收入金额</div>
+          <div className="text-center">同比</div>
         </div>
-
-        {/* 表格内容 */}
-        <div className="space-y-1.5">
-          {langtaoshaRevenueStructure.map((item, index) => (
-            <div 
-              key={index}
-              className="grid grid-cols-4 gap-2 py-2 hover:bg-slate-50 rounded-lg transition-all"
-            >
-              <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: item.color }}></span>
-                <span className="text-xs font-bold text-slate-700">{item.name}</span>
-              </div>
-              <div className="text-xs font-mono text-slate-800 text-right font-semibold">
-                ¥{(item.value / 1000).toFixed(1)}K
-              </div>
-              <div className="text-xs font-mono text-slate-800 text-right font-semibold">
-                {item.ratio}%
-              </div>
-              <div className="text-center">
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${item.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-                  {item.trend}
-                </span>
-              </div>
+        {langtaoshaRevenueStructure.map((d, j) => (
+          <div key={j} className="grid grid-cols-[1fr_100px_70px] items-center py-1.5 hover:bg-slate-50 rounded">
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: d.color }}></span>
+              <span className="text-[11px] font-bold text-slate-700 truncate">{d.name}</span>
             </div>
-          ))}
+            <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{fm(d.value)}</span>
+            <span className={`text-center text-[9px] font-bold px-1 py-0.5 rounded ${d.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{d.trend}</span>
+          </div>
+        ))}
+        <div className="grid grid-cols-[1fr_100px_70px] items-center py-1.5 mt-1 border-t border-slate-200 bg-slate-50 rounded">
+          <span className="text-[11px] font-bold text-slate-800">小计</span>
+          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{fm(revenueSubtotal)}</span>
+          <span></span>
         </div>
       </div>
 
-      {/* 联营收入 */}
-      <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-3.5 bg-blue-600 rounded-full"></span>
-            <h3 className="text-slate-800 text-xs font-bold tracking-wide">联营收入</h3>
-          </div>
-          <span className="text-[10px] text-slate-400 font-semibold">共 {filteredPartnerBusinesses.length} 家商户</span>
+      {/* === 商铺销售情况（4列: 商户名称 | 业态 | 交易笔数 | 销售收入 | 同比）=== */}
+      <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100">
+        <div className="flex items-center gap-1.5 mb-2">
+          <span className="w-1 h-3.5 bg-blue-600 rounded-full shrink-0"></span>
+          <h3 className="text-slate-800 text-xs font-bold">商铺销售情况（{dl}）</h3>
+          <span className="text-[10px] text-slate-400 ml-auto">共 {fpb.length} 家</span>
         </div>
 
         {/* 标签页筛选 */}
-        <div className="flex gap-2 mb-3 p-1 bg-slate-100 rounded-lg">
-          <button
-            onClick={() => setPartnerFilter('all')}
-            className={`flex-1 px-3 py-2 rounded-md text-xs font-bold transition-all ${
-              partnerFilter === 'all'
-                ? 'bg-white text-slate-800 shadow-sm'
-                : 'text-slate-500 hover:text-slate-700'
-            }`}
-          >
-            全部商户
-          </button>
-          <button
-            onClick={() => setPartnerFilter('fixed')}
-            className={`flex-1 px-3 py-2 rounded-md text-xs font-bold transition-all ${
-              partnerFilter === 'fixed'
-                ? 'bg-blue-500 text-white shadow-sm'
-                : 'text-slate-500 hover:text-slate-700'
-            }`}
-          >
-            固定租金
-          </button>
-          <button
-            onClick={() => setPartnerFilter('direct')}
-            className={`flex-1 px-3 py-2 rounded-md text-xs font-bold transition-all ${
-              partnerFilter === 'direct'
-                ? 'bg-emerald-500 text-white shadow-sm'
-                : 'text-slate-500 hover:text-slate-700'
-            }`}
-          >
-            直接分成
-          </button>
-          <button
-            onClick={() => setPartnerFilter('mixed')}
-            className={`flex-1 px-3 py-2 rounded-md text-xs font-bold transition-all ${
-              partnerFilter === 'mixed'
-                ? 'bg-purple-500 text-white shadow-sm'
-                : 'text-slate-500 hover:text-slate-700'
-            }`}
-          >
-            保底+流水
-          </button>
-        </div>
-
-        {/* 表格头 */}
-        <div className="grid grid-cols-5 gap-2 mb-2 pb-2 border-b border-slate-200">
-          <div className="text-[10px] text-slate-500 font-bold">商户名称</div>
-          <div className="text-[10px] text-slate-500 font-bold text-center">类型</div>
-          <div className="text-[10px] text-slate-500 font-bold text-right">交易笔数</div>
-          <div className="text-[10px] text-slate-500 font-bold text-right">交易额</div>
-          <div className="text-[10px] text-slate-500 font-bold text-center">趋势</div>
-        </div>
-
-        {/* 表格内容 */}
-        <div className="space-y-1.5">
-          {filteredPartnerBusinesses.map((business, index) => (
-            <div 
-              key={index}
-              className="grid grid-cols-5 gap-2 py-2 rounded-lg transition-all hover:bg-blue-50/50 border-l-2 border-blue-500 pl-2"
-            >
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs font-bold text-slate-700">{business.name}</span>
-              </div>
-              <div className="text-center">
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-50 text-blue-700">
-                  联营
-                </span>
-              </div>
-              <div className="text-xs font-mono text-slate-800 text-right font-semibold">
-                {business.transactions.toLocaleString('en-US')}
-              </div>
-              <div className="text-xs font-mono text-slate-800 text-right font-semibold">
-                ¥{(business.revenue / 1000).toFixed(1)}K
-                <span className="text-[9px] text-slate-400 ml-1">参考</span>
-              </div>
-              <div className="text-center">
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${business.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-                  {business.trend}
-                </span>
-              </div>
-            </div>
+        <div className="flex gap-1.5 mb-3 p-1 bg-slate-100 rounded-lg">
+          {[
+            {k:'mixed',l:'保底+流水分成',c:'bg-purple-600'},
+            {k:'direct',l:'直接分成',c:'bg-emerald-600'},
+            {k:'fixed',l:'固定租金',c:'bg-blue-600'},
+          ].map(t => (
+            <button key={t.k} onClick={()=>setPf(t.k)}
+              className={`flex-1 px-2 py-2 rounded-md text-[11px] font-bold transition-all ${pf===t.k?`${t.c} text-white shadow-md`:'text-slate-500 hover:text-slate-700 hover:bg-slate-200'}`}>{t.l}</button>
           ))}
         </div>
 
-        {/* 说明 */}
-        <div className="mt-3 pt-3 border-t border-slate-100 flex items-center gap-2 text-[10px] text-slate-400">
-          <div className="flex items-center gap-1">
-            <span className="w-2 h-2 rounded-sm bg-blue-500"></span>
-            <span>联营商户流水仅作参考</span>
-          </div>
+        {/* 表头 */}
+        <div className="grid grid-cols-[1fr_50px_90px_70px] text-[10px] text-slate-500 font-bold mb-1 pb-1 border-b border-slate-200 items-center">
+          <div>商户名称</div>
+          <div className="text-right">笔数</div>
+          <div className="text-right">销售收入</div>
+          <div className="text-center">同比</div>
+        </div>
+        {/* 数据行 */}
+        <div className="space-y-0.5 max-h-[300px] overflow-y-auto">
+          {fpb.map((b, j) => (
+            <div key={j} className="grid grid-cols-[1fr_50px_90px_70px] items-center py-1.5 hover:bg-blue-50/50 border-l-2 border-blue-500 pl-2 rounded">
+              <span className="text-[11px] font-bold text-slate-700 truncate">{b.name}</span>
+              <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{b.transactions.toLocaleString('en-US')}</span>
+              <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{fm(b.revenue)}</span>
+              <span className={`text-center text-[9px] font-bold px-1 py-0.5 rounded ${b.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{b.trend}</span>
+            </div>
+          ))}
+        </div>
+        {/* 小计行 */}
+        <div className="grid grid-cols-[1fr_50px_90px_70px] items-center py-1.5 mt-1 border-t border-slate-200 bg-slate-50 rounded">
+          <span className="text-[11px] font-bold text-slate-800">小计</span>
+          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{shopSubtotalQty.toLocaleString('en-US')}</span>
+          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{fm(shopSubtotalRev)}</span>
+          <span></span>
+        </div>
+
+        <div className="mt-2 pt-2 border-t border-slate-100 flex items-center gap-2 text-[10px] text-slate-400">
+          <span className="w-2 h-2 rounded-sm bg-blue-500"></span>
+          <span>联营商户流水仅作参考</span>
         </div>
       </div>
 

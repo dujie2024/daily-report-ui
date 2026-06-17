@@ -1622,6 +1622,8 @@ export default function App() {
                   langtaoshaBusinessRevenue={langtaoshaBusinessRevenue}
                   userRole={userRole}
                   setActiveTab={setActiveTab}
+                  dimension={dimension}
+                  setDimension={setDimension}
                 />
               )}
 
