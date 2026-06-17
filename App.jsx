@@ -1440,10 +1440,6 @@ export default function App() {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-slate-800 text-base font-black tracking-tight font-mono">{currentData.paidVisitors}</span>
-                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
-                          <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-                          同比 {currentData.paidVisitorsTrend}
-                        </span>
                       </div>
                     </div>
 
@@ -1457,10 +1453,6 @@ export default function App() {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-slate-800 text-base font-black tracking-tight font-mono">{currentData.receptionVisitors}</span>
-                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
-                          <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-                          同比 {currentData.receptionVisitorsTrend}
-                        </span>
                       </div>
                     </div>
                   </div>
@@ -1587,6 +1579,7 @@ export default function App() {
                   userRole={userRole}
                   setActiveTab={setActiveTab}
                   dimension={dimension}
+                  setDimension={setDimension}
                 />
               )}
 
@@ -1600,6 +1593,8 @@ export default function App() {
                   xiaozhenParkingData={xiaozhenParkingData}
                   userRole={userRole}
                   setActiveTab={setActiveTab}
+                  dimension={dimension}
+                  setDimension={setDimension}
                 />
               )}
 

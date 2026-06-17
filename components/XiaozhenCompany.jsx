@@ -1,4 +1,4 @@
-import { DollarSign, Users, Activity, UserCheck, TrendingUp, Car } from 'lucide-react';
+import { DollarSign, Users, Activity, TrendingUp, Car } from 'lucide-react';
 
 export const XiaozhenCompany = ({ 
   xiaozhenData, 
@@ -7,18 +7,33 @@ export const XiaozhenCompany = ({
   xiaozhenBusinessRevenue,
   xiaozhenParkingData,
   userRole,
-  setActiveTab 
+  setActiveTab,
+  dimension = 'day',
+  setDimension
 }) => {
+  const dl = dimension === 'day' ? '本日' : dimension === 'month' ? '本月' : '本年';
+  const fm = v => Math.round(v).toLocaleString('en-US');
+
   return (
     <div className="space-y-4">
-      {/* 天女小镇头部信息卡 */}
+      {/* 天女小镇头部信息卡 - 标题与日期切换同行 */}
       <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-        <h2 className="text-lg font-black text-slate-800">天女小镇经营看板</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-black text-slate-800">天女小镇经营看板</h2>
+          <div className="bg-slate-100 p-0.5 rounded-xl flex shadow-inner">
+            {['day','month','year'].map(d => (
+              <button key={d} onClick={() => setDimension?.(d)}
+                className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all ${dimension === d ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>
+                {d === 'day' ? '本日' : d === 'month' ? '本月' : '本年'}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* KPI 数据网格 - 紧凑排版 */}
-      <div className="grid grid-cols-2 gap-3">
-        {/* 总收入 (元) */}
+      <div className="space-y-3">
+        {/* 总收入 (元) - 独占一行 */}
         <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-slate-400 text-[10px] font-bold">总收入 (元)</span>
@@ -27,7 +42,7 @@ export const XiaozhenCompany = ({
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-slate-800 text-base font-black tracking-tight font-mono">¥{xiaozhenData.revenue}</span>
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">¥{fm(xiaozhenData.revenue)}</span>
             <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
               <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
               同比 {xiaozhenData.revenueTrend}
@@ -35,129 +50,90 @@ export const XiaozhenCompany = ({
           </div>
         </div>
 
-        {/* 总客流 (人次) */}
-        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-slate-400 text-[10px] font-bold">总客流 (人次)</span>
-            <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-              <Users className="w-3 h-3" />
+        <div className="grid grid-cols-2 gap-3">
+          {/* 间夜数 */}
+          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-slate-400 text-[10px] font-bold">间夜数</span>
+              <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
+                <Activity className="w-3 h-3" />
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-slate-800 text-base font-black tracking-tight font-mono">{fm(xiaozhenData.roomNights)}</span>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-blue-50 text-blue-600 whitespace-nowrap">
+                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
+                同比 {xiaozhenData.roomNightsTrend}
+              </span>
             </div>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{xiaozhenData.visitors}</span>
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
-              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-              同比 {xiaozhenData.visitorsTrend}
-            </span>
+
+          {/* 平均房价 ADR */}
+          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-slate-400 text-[10px] font-bold">平均房价 ADR</span>
+              <div className="w-5 h-5 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
+                <TrendingUp className="w-3 h-3" />
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-slate-800 text-base font-black tracking-tight font-mono">{xiaozhenData.adr}</span>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-purple-50 text-purple-600 whitespace-nowrap">
+                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
+                同比 {xiaozhenData.adrTrend}
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* 间夜数 */}
-        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-slate-400 text-[10px] font-bold">间夜数</span>
-            <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-              <Activity className="w-3 h-3" />
+        <div className="grid grid-cols-2 gap-3">
+          {/* 餐饮接待 */}
+          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-slate-400 text-[10px] font-bold">餐饮接待</span>
+              <div className="w-5 h-5 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
+                <Users className="w-3 h-3" />
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-slate-800 text-base font-black tracking-tight font-mono">{fm(xiaozhenData.diningGuests)}</span>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-amber-50 text-amber-600 whitespace-nowrap">
+                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
+                同比 {xiaozhenData.diningGuestsTrend}
+              </span>
             </div>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{xiaozhenData.roomNights}</span>
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-blue-50 text-blue-600 whitespace-nowrap">
-              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-              同比 {xiaozhenData.roomNightsTrend}
-            </span>
-          </div>
-        </div>
 
-        {/* 餐饮接待量 */}
-        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-slate-400 text-[10px] font-bold">餐饮接待</span>
-            <div className="w-5 h-5 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
-              <Users className="w-3 h-3" />
+          {/* 餐饮客单 */}
+          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-slate-400 text-[10px] font-bold">餐饮客单</span>
+              <div className="w-5 h-5 rounded-full bg-rose-50 flex items-center justify-center text-rose-500">
+                <DollarSign className="w-3 h-3" />
+              </div>
             </div>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{xiaozhenData.diningGuests}</span>
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-amber-50 text-amber-600 whitespace-nowrap">
-              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-              同比 {xiaozhenData.diningGuestsTrend}
-            </span>
-          </div>
-        </div>
-
-        {/* 餐饮客单价 */}
-        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-slate-400 text-[10px] font-bold">餐饮客单</span>
-            <div className="w-5 h-5 rounded-full bg-rose-50 flex items-center justify-center text-rose-500">
-              <DollarSign className="w-3 h-3" />
+            <div className="flex items-center justify-between">
+              <span className="text-slate-800 text-base font-black tracking-tight font-mono">{xiaozhenData.diningAvg}</span>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-rose-50 text-rose-600 whitespace-nowrap">
+                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
+                同比 {xiaozhenData.diningAvgTrend}
+              </span>
             </div>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{xiaozhenData.diningAvg}</span>
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-rose-50 text-rose-600 whitespace-nowrap">
-              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-              同比 {xiaozhenData.diningAvgTrend}
-            </span>
-          </div>
-        </div>
-
-        {/* 平均房价 ADR */}
-        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-slate-400 text-[10px] font-bold">平均房价 ADR</span>
-            <div className="w-5 h-5 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
-              <TrendingUp className="w-3 h-3" />
-            </div>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{xiaozhenData.adr}</span>
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-purple-50 text-purple-600 whitespace-nowrap">
-              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-              同比 {xiaozhenData.adrTrend}
-            </span>
-          </div>
-        </div>
-
-        {/* 入住率 */}
-        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-slate-400 text-[10px] font-bold">入住率</span>
-            <div className="w-5 h-5 rounded-full bg-cyan-50 flex items-center justify-center text-cyan-500">
-              <Activity className="w-3 h-3" />
-            </div>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{xiaozhenData.occupancyRate}</span>
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-cyan-50 text-cyan-600 whitespace-nowrap">
-              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-              同比 {xiaozhenData.occupancyRateTrend}
-            </span>
           </div>
         </div>
       </div>
 
-      {/* 月度计划执行进度 */}
+      {/* 月度计划达成 */}
       <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex items-center gap-1.5">
-            <span className="w-1 h-3.5 bg-blue-600 rounded-full"></span>
-            <h3 className="text-slate-800 text-xs font-bold tracking-wide">月度计划执行进度</h3>
-          </div>
-          <span className="text-[10px] text-slate-400 font-semibold">当期基准预算</span>
+        <div className="flex items-center gap-1.5 mb-3">
+          <span className="w-1 h-3.5 bg-blue-600 rounded-full"></span>
+          <h3 className="text-slate-800 text-xs font-bold tracking-wide">月度计划达成</h3>
         </div>
 
         <div className="space-y-3.5">
-          <div className="grid grid-cols-2 gap-2 text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-            <div>
-              <span className="text-slate-400 text-[10px] block">预算目标 (元)</span>
-              <span className="text-slate-700 font-extrabold font-mono text-sm">¥{(xiaozhenData.rawRevenue * 1.15).toFixed(0)}</span>
-            </div>
-            <div className="text-right">
-              <span className="text-slate-400 text-[10px] block">当前达成率</span>
-              <span className="text-blue-600 font-black text-sm">{((xiaozhenData.rawRevenue / (xiaozhenData.rawRevenue * 1.15)) * 100).toFixed(1)}%</span>
-            </div>
+          <div className="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <span className="text-slate-400 text-[10px] font-bold">月度创值计划（6月）</span>
+            <span className="text-slate-700 font-extrabold font-mono text-sm">¥{(xiaozhenData.rawRevenue * 1.15).toFixed(0)}</span>
           </div>
 
           <div className="space-y-2">
