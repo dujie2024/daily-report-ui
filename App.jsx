@@ -1394,86 +1394,70 @@ export default function App() {
               {/* A. 平台总览看板视图 */}
               {activeTab === 'platform' && userRole === 'admin' && (
                 <>
-                  {/* KPI网格 (客流(人) 彻底改为 客流(人次)) */}
+                  {/* KPI网格 - 紧凑排版：数值和同比同一行 */}
                   <div className="grid grid-cols-2 gap-3">
                     {/* 总收入 */}
-                    <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                    <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-slate-400 text-[10px] font-bold">总收入 (元)</span>
+                        <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
+                          <DollarSign className="w-3 h-3" />
+                        </div>
+                      </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400 text-[11px] font-bold">总收入 (元)</span>
-                        <div className="w-6 h-6 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
-                          <DollarSign className="w-3.5 h-3.5" />
-                        </div>
-                      </div>
-                      <div className="my-1.5">
-                        <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap overflow-x-auto scrollbar-none font-mono">
-                          {currentData.revenue}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
+                        <span className="text-slate-800 text-base font-black tracking-tight font-mono">{currentData.revenue}</span>
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
                           <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
                           同比 {currentData.revenueTrend}
                         </span>
                       </div>
                     </div>
 
-                    {/* 总客流 (人) -> (人次) */}
-                    <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                    {/* 总客流 */}
+                    <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-slate-400 text-[10px] font-bold">总客流 (人次)</span>
+                        <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
+                          <Users className="w-3 h-3" />
+                        </div>
+                      </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400 text-[11px] font-bold">总客流 (人次)</span>
-                        <div className="w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-                          <Users className="w-3.5 h-3.5" />
-                        </div>
-                      </div>
-                      <div className="my-1.5">
-                        <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-                          {currentData.visitors}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
+                        <span className="text-slate-800 text-base font-black tracking-tight font-mono">{currentData.visitors}</span>
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
                           <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
                           同比 {currentData.visitorsTrend}
                         </span>
                       </div>
                     </div>
 
-                    {/* 收费客流 (人) -> (人次) */}
-                    <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                    {/* 收费客流 */}
+                    <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-slate-400 text-[10px] font-bold">收费客流 (人次)</span>
+                        <div className="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500">
+                          <Activity className="w-3 h-3" />
+                        </div>
+                      </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400 text-[11px] font-bold">收费客流 (人次)</span>
-                        <div className="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500">
-                          <Activity className="w-3.5 h-3.5" />
-                        </div>
-                      </div>
-                      <div className="my-1.5">
-                        <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-                          {currentData.paidVisitors}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
+                        <span className="text-slate-800 text-base font-black tracking-tight font-mono">{currentData.paidVisitors}</span>
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
                           <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
                           同比 {currentData.paidVisitorsTrend}
                         </span>
                       </div>
                     </div>
 
-                    {/* 接待客流 (人) -> (人次) */}
-                    <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                    {/* 接待客流 */}
+                    <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-slate-400 text-[10px] font-bold">接待客流 (人次)</span>
+                        <div className="w-5 h-5 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
+                          <Users className="w-3 h-3" />
+                        </div>
+                      </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400 text-[11px] font-bold">接待客流 (人次)</span>
-                        <div className="w-6 h-6 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
-                          <Users className="w-3.5 h-3.5" />
-                        </div>
-                      </div>
-                      <div className="my-1.5">
-                        <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-                          {currentData.receptionVisitors}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
+                        <span className="text-slate-800 text-base font-black tracking-tight font-mono">{currentData.receptionVisitors}</span>
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
                           <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
                           同比 {currentData.receptionVisitorsTrend}
                         </span>
@@ -1481,26 +1465,17 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* 预算与计划执行分析 (实际销售完成率 -> 实际收入完成率; 领先和预计月底完成率去掉) */}
+                  {/* 当{dimension === 'year' ? '年' : '月'}度计划达成 */}
                   <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-                    <div className="flex justify-between items-center mb-3">
-                      <div className="flex items-center gap-1.5">
-                        <span className="w-1 h-3.5 bg-blue-600 rounded-full"></span>
-                        <h3 className="text-slate-800 text-xs font-bold tracking-wide">月度计划执行进度</h3>
-                      </div>
-                      <span className="text-[10px] text-slate-400 font-semibold">当期基准预算</span>
+                    <div className="flex items-center gap-1.5 mb-3">
+                      <span className="w-1 h-3.5 bg-blue-600 rounded-full"></span>
+                      <h3 className="text-slate-800 text-xs font-bold tracking-wide">{dimension === 'year' ? '年度计划达成' : '月度计划达成'}</h3>
                     </div>
 
                     <div className="space-y-3.5">
-                      <div className="grid grid-cols-2 gap-2 text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                        <div>
-                          <span className="text-slate-400 text-[10px] block">预算目标 (元)</span>
-                          <span className="text-slate-700 font-extrabold font-mono text-sm">{currentData.budgetRevenue}</span>
-                        </div>
-                        <div className="text-right">
-                          <span className="text-slate-400 text-[10px] block">当前达成率</span>
-                          <span className="text-blue-600 font-black text-sm">{currentData.completionRate}</span>
-                        </div>
+                      <div className="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                        <span className="text-slate-400 text-[10px] font-bold">{dimension === 'year' ? '年度计划目标（6月）' : '月度计划目标（6月）'}</span>
+                        <span className="text-slate-700 font-extrabold font-mono text-sm">{currentData.budgetRevenue}</span>
                       </div>
 
                       <div className="space-y-2">
@@ -1514,7 +1489,6 @@ export default function App() {
                           </div>
                         </div>
 
-                        {/* 修正：实际销售完成率 -> 实际收入完成率 */}
                         <div>
                           <div className="flex justify-between text-[10px] text-slate-700 mb-1">
                             <span className="font-semibold">实际收入完成率</span>
@@ -1528,17 +1502,17 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* 4. 子公司收入贡献排行 -> 客创单元收入概览，名称简化且移除多余解释 */}
+                  {/* 客创单元收入概览（按维度） */}
                   <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
                     <div className="flex justify-between items-center mb-3">
                       <div className="flex items-center gap-1.5">
                         <span className="w-1.5 h-3.5 bg-blue-600 rounded-full"></span>
-                        <h3 className="text-slate-800 text-xs font-bold tracking-wide">客创单元收入概览</h3>
+                        <h3 className="text-slate-800 text-xs font-bold tracking-wide">客创单元收入概览（{dimension === 'day' ? '本日' : dimension === 'month' ? '本月' : '本年'}）</h3>
                       </div>
                       <span className="text-[10px] text-slate-400">点击卡片可穿透</span>
                     </div>
 
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       {activeRankings.map((item, index) => {
                         const IconComponent = item.icon === 'Mountain' ? Mountain :
                                              item.icon === 'Hotel' ? Hotel :
@@ -1557,70 +1531,23 @@ export default function App() {
                                 triggerAlert(`当前所在系统：${item.name}`);
                               }
                             }}
-                            className="p-3 bg-slate-50 hover:bg-slate-100 active:scale-[0.99] border border-slate-200/60 hover:border-slate-300 rounded-xl cursor-pointer transition-all flex flex-col gap-2"
+                            className="px-3 py-2.5 bg-slate-50 hover:bg-slate-100 active:scale-[0.99] border border-slate-200/60 hover:border-slate-300 rounded-xl cursor-pointer transition-all flex items-center"
                           >
-                          <div className="flex justify-between items-center">
-                            <div className="flex items-center gap-2">
-                              <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ backgroundColor: item.color + '20' }}>
+                            <div className="flex items-center gap-2 min-w-0 flex-1">
+                              <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: item.color + '20' }}>
                                 <IconComponent className="w-3.5 h-3.5" style={{ color: item.color }} />
                               </div>
-                              <span className="text-xs font-bold text-slate-700">{item.name}</span>
+                              <span className="text-xs font-bold text-slate-700 truncate">{item.name}</span>
                             </div>
-                            <span className="text-xs font-extrabold text-slate-900 font-mono">¥{item.revenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                          </div>
-
-                          <div className="flex items-center gap-3">
-                            <div className="flex-1 bg-slate-200 h-1.5 rounded-full overflow-hidden">
-                              <div className={`h-full rounded-full bg-gradient-to-r ${item.bg}`} style={{ width: `${item.ratio}%` }}></div>
-                            </div>
-                            <div className="flex items-center gap-1.5 shrink-0">
-                              <span className="text-[10px] text-slate-400 font-bold">占比 {item.ratio}%</span>
+                            <div className="flex items-center gap-2 shrink-0">
+                              <span className="text-xs font-extrabold text-slate-900 font-mono">¥{item.revenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                               <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${item.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-                                {item.trend}
+                                同比 {item.trend}
                               </span>
                             </div>
                           </div>
-                        </div>
                         );
                       })}
-                    </div>
-                  </div>
-
-                  {/* 5. 收入结构分析 */}
-                  <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-                    <div className="flex justify-between items-center mb-3">
-                      <div className="flex items-center gap-1.5">
-                        <span className="w-1.5 h-3.5 bg-blue-600 rounded-full"></span>
-                        <h3 className="text-slate-800 text-xs font-bold tracking-wide">收入结构分析</h3>
-                      </div>
-                    </div>
-
-                    <div className="text-center font-black text-slate-700 text-sm py-1 border-b border-slate-50 mb-4">
-                      单位收入对比 (占比结构)
-                    </div>
-
-                    {/* 圆环图与中心数值区域 */}
-                    <div className="flex justify-center items-center relative py-2">
-                      {renderDonutChart(activeRankings, totalRevVal)}
-                      
-                      {/* 圈内绝对定位文本 */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                        <span className="text-[10px] text-slate-400 font-bold">总收入</span>
-                        <span className="text-xs font-black text-slate-800 mt-0.5 font-mono">
-                          ¥{totalRevVal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* 动态比例色块说明列表 */}
-                    <div className="grid grid-cols-2 gap-2 pt-2">
-                      {activeRankings.map((company) => (
-                        <div key={company.id} className="flex items-center gap-2 p-2 bg-slate-50 rounded-lg border border-slate-100 text-[11px]">
-                          <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: company.color }}></span>
-                          <span className="text-slate-500 font-medium truncate flex-1">{company.name}</span>
-                          <span className="font-extrabold text-slate-800 font-mono text-right">{company.ratio}%</span>
-                        </div>
-                      ))}
                     </div>
                   </div>
 
@@ -1659,6 +1586,7 @@ export default function App() {
                   zushanBusinessRevenue={zushanBusinessRevenue}
                   userRole={userRole}
                   setActiveTab={setActiveTab}
+                  dimension={dimension}
                 />
               )}
 

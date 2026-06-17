@@ -39,137 +39,107 @@ export const HaishangyouCompany = ({
         <h2 className="text-lg font-black text-slate-800">海上游经营看板</h2>
       </div>
 
-      {/* KPI 数据网格 - 上2下3布局 */}
-      <div className="space-y-3">
-        {/* 第一行：基础指标 */}
-        <div className="grid grid-cols-2 gap-3">
-          {/* 总收入 (元) */}
-          <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
-            <div className="flex items-center justify-between">
-              <span className="text-slate-400 text-[11px] font-bold">总收入 (元)</span>
-              <div className="w-6 h-6 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
-                <DollarSign className="w-3.5 h-3.5" />
-              </div>
-            </div>
-            <div className="my-1.5">
-              <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-                ¥{haishangyouData.revenue}
-              </div>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
-                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-                同比 {haishangyouData.revenueTrend}
-              </span>
+      {/* KPI 数据网格 - 紧凑排版 */}
+      <div className="grid grid-cols-2 gap-3">
+        {/* 总收入 (元) */}
+        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-slate-400 text-[10px] font-bold">总收入 (元)</span>
+            <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
+              <DollarSign className="w-3 h-3" />
             </div>
           </div>
-
-          {/* 总客流 (人次) */}
-          <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
-            <div className="flex items-center justify-between">
-              <span className="text-slate-400 text-[11px] font-bold">总客流 (人次)</span>
-              <div className="w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-                <Users className="w-3.5 h-3.5" />
-              </div>
-            </div>
-            <div className="my-1.5">
-              <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-                {haishangyouData.visitors}
-              </div>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
-                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-                同比 {haishangyouData.visitorsTrend}
-              </span>
-            </div>
+          <div className="flex items-center justify-between">
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">¥{haishangyouData.revenue}</span>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
+              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
+              同比 {haishangyouData.revenueTrend}
+            </span>
           </div>
         </div>
 
-        {/* 第二行：总航次、收费客流、接待客流、客单价 */}
-        <div className="grid grid-cols-4 gap-3">
-          {/* 总航次 (核心指标) */}
-          <div className="bg-gradient-to-br from-cyan-50 to-blue-50 p-3.5 rounded-2xl shadow-sm border-2 border-cyan-200 flex flex-col justify-between">
-            <div className="flex items-center justify-between">
-              <span className="text-cyan-700 text-[11px] font-bold">总航次 ⭐</span>
-              <div className="w-6 h-6 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-600">
-                <Activity className="w-3.5 h-3.5" />
-              </div>
-            </div>
-            <div className="my-1.5">
-              <div className="text-cyan-900 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-                {haishangyouData.totalTrips}
-              </div>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-100 text-cyan-700">
-                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-                {haishangyouData.totalTripsTrend}
-              </span>
+        {/* 总客流 (人次) */}
+        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-slate-400 text-[10px] font-bold">总客流 (人次)</span>
+            <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
+              <Users className="w-3 h-3" />
             </div>
           </div>
+          <div className="flex items-center justify-between">
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{haishangyouData.visitors}</span>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
+              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
+              同比 {haishangyouData.visitorsTrend}
+            </span>
+          </div>
+        </div>
 
-          {/* 收费客流 (人次) */}
-          <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
-            <div className="flex items-center justify-between">
-              <span className="text-slate-400 text-[11px] font-bold">收费客流</span>
-              <div className="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500">
-                <Activity className="w-3.5 h-3.5" />
-              </div>
-            </div>
-            <div className="my-1.5">
-              <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-                {haishangyouData.paidVisitors}
-              </div>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
-                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-                {haishangyouData.paidVisitorsTrend}
-              </span>
+        {/* 总航次 */}
+        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-slate-400 text-[10px] font-bold">总航次</span>
+            <div className="w-5 h-5 rounded-full bg-cyan-50 flex items-center justify-center text-cyan-500">
+              <Activity className="w-3 h-3" />
             </div>
           </div>
+          <div className="flex items-center justify-between">
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{haishangyouData.totalTrips}</span>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-cyan-50 text-cyan-600 whitespace-nowrap">
+              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
+              同比 {haishangyouData.totalTripsTrend}
+            </span>
+          </div>
+        </div>
 
-          {/* 接待客流 (人次) */}
-          <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
-            <div className="flex items-center justify-between">
-              <span className="text-slate-400 text-[11px] font-bold">接待客流</span>
-              <div className="w-6 h-6 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
-                <UserCheck className="w-3.5 h-3.5" />
-              </div>
-            </div>
-            <div className="my-1.5">
-              <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-                {haishangyouData.receptionVisitors}
-              </div>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
-                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-                {haishangyouData.receptionVisitorsTrend}
-              </span>
+        {/* 客单价 */}
+        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-slate-400 text-[10px] font-bold">客单价</span>
+            <div className="w-5 h-5 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
+              <DollarSign className="w-3 h-3" />
             </div>
           </div>
+          <div className="flex items-center justify-between">
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{haishangyouData.avgPrice}</span>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-amber-50 text-amber-600 whitespace-nowrap">
+              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
+              同比 {haishangyouData.avgPriceTrend}
+            </span>
+          </div>
+        </div>
 
-          {/* 客单价 */}
-          <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-3.5 rounded-2xl shadow-sm border-2 border-amber-200 flex flex-col justify-between">
-            <div className="flex items-center justify-between">
-              <span className="text-amber-700 text-[11px] font-bold">客单价 💰</span>
-              <div className="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
-                <DollarSign className="w-3.5 h-3.5" />
-              </div>
+        {/* 收费客流 (人次) */}
+        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-slate-400 text-[10px] font-bold">收费客流</span>
+            <div className="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500">
+              <Activity className="w-3 h-3" />
             </div>
-            <div className="my-1.5">
-              <div className="text-amber-900 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-                {haishangyouData.avgPrice}
-              </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{haishangyouData.paidVisitors}</span>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
+              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
+              同比 {haishangyouData.paidVisitorsTrend}
+            </span>
+          </div>
+        </div>
+
+        {/* 接待客流 */}
+        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-slate-400 text-[10px] font-bold">接待客流</span>
+            <div className="w-5 h-5 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
+              <UserCheck className="w-3 h-3" />
             </div>
-            <div className="flex items-center gap-1">
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-700">
-                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-                {haishangyouData.avgPriceTrend}
-              </span>
-            </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{haishangyouData.receptionVisitors}</span>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
+              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
+              同比 {haishangyouData.receptionVisitorsTrend}
+            </span>
           </div>
         </div>
       </div>

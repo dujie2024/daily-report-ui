@@ -9,7 +9,8 @@ export const ZushanCompany = ({
   zushanProductPrice,
   zushanBusinessRevenue,
   userRole,
-  setActiveTab 
+  setActiveTab,
+  dimension = 'day'
 }) => {
   // 联营商户筛选状态：all-全部, fixed-固定租金, direct-直接分成, mixed-保底+流水
   const [partnerFilter, setPartnerFilter] = useState('all');
@@ -28,28 +29,27 @@ export const ZushanCompany = ({
 
   return (
     <div className="space-y-4">
-      {/* 祖山景区头部信息卡 */}
+      {/* 祖山景区头部信息卡 - 经营看板 + 日期同排 */}
       <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-        <h2 className="text-lg font-black text-slate-800">祖山景区经营看板</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-black text-slate-800">祖山景区经营看板</h2>
+          <span className="text-[10px] text-slate-400 font-extrabold font-mono">数据日期：2026-04-21</span>
+        </div>
       </div>
 
-      {/* KPI 数据网格 */}
+      {/* KPI 数据网格 - 紧凑排版 */}
       <div className="grid grid-cols-2 gap-3">
         {/* 总收入 (元) */}
-        <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-slate-400 text-[10px] font-bold">总收入 (元)</span>
+            <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
+              <DollarSign className="w-3 h-3" />
+            </div>
+          </div>
           <div className="flex items-center justify-between">
-            <span className="text-slate-400 text-[11px] font-bold">总收入 (元)</span>
-            <div className="w-6 h-6 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
-              <DollarSign className="w-3.5 h-3.5" />
-            </div>
-          </div>
-          <div className="my-1.5">
-            <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-              ¥{zushanData.revenue}
-            </div>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">¥{zushanData.revenue}</span>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
               <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
               同比 {zushanData.revenueTrend}
             </span>
@@ -57,20 +57,16 @@ export const ZushanCompany = ({
         </div>
 
         {/* 总客流 (人次) */}
-        <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-slate-400 text-[10px] font-bold">总客流 (人次)</span>
+            <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
+              <Users className="w-3 h-3" />
+            </div>
+          </div>
           <div className="flex items-center justify-between">
-            <span className="text-slate-400 text-[11px] font-bold">总客流 (人次)</span>
-            <div className="w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-              <Users className="w-3.5 h-3.5" />
-            </div>
-          </div>
-          <div className="my-1.5">
-            <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-              {zushanData.visitors}
-            </div>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{zushanData.visitors}</span>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
               <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
               同比 {zushanData.visitorsTrend}
             </span>
@@ -78,20 +74,16 @@ export const ZushanCompany = ({
         </div>
 
         {/* 收费客流 (人次) */}
-        <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-slate-400 text-[10px] font-bold">收费客流 (人次)</span>
+            <div className="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500">
+              <Activity className="w-3 h-3" />
+            </div>
+          </div>
           <div className="flex items-center justify-between">
-            <span className="text-slate-400 text-[11px] font-bold">收费客流 (人次)</span>
-            <div className="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500">
-              <Activity className="w-3.5 h-3.5" />
-            </div>
-          </div>
-          <div className="my-1.5">
-            <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-              {zushanData.paidVisitors}
-            </div>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{zushanData.paidVisitors}</span>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
               <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
               同比 {zushanData.paidVisitorsTrend}
             </span>
@@ -99,20 +91,16 @@ export const ZushanCompany = ({
         </div>
 
         {/* 接待客流 (人次) */}
-        <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-slate-400 text-[10px] font-bold">接待客流 (人次)</span>
+            <div className="w-5 h-5 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
+              <UserCheck className="w-3 h-3" />
+            </div>
+          </div>
           <div className="flex items-center justify-between">
-            <span className="text-slate-400 text-[11px] font-bold">接待客流 (人次)</span>
-            <div className="w-6 h-6 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
-              <UserCheck className="w-3.5 h-3.5" />
-            </div>
-          </div>
-          <div className="my-1.5">
-            <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-              {zushanData.receptionVisitors}
-            </div>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{zushanData.receptionVisitors}</span>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
               <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
               同比 {zushanData.receptionVisitorsTrend}
             </span>
@@ -120,26 +108,17 @@ export const ZushanCompany = ({
         </div>
       </div>
 
-      {/* 月度计划执行进度 */}
+      {/* {dimension === 'year' ? '年度' : '月度'}计划达成 */}
       <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex items-center gap-1.5">
-            <span className="w-1 h-3.5 bg-blue-600 rounded-full"></span>
-            <h3 className="text-slate-800 text-xs font-bold tracking-wide">月度计划执行进度</h3>
-          </div>
-          <span className="text-[10px] text-slate-400 font-semibold">当期基准预算</span>
+        <div className="flex items-center gap-1.5 mb-3">
+          <span className="w-1 h-3.5 bg-blue-600 rounded-full"></span>
+          <h3 className="text-slate-800 text-xs font-bold tracking-wide">{dimension === 'year' ? '年度计划达成' : '月度计划达成'}</h3>
         </div>
 
         <div className="space-y-3.5">
-          <div className="grid grid-cols-2 gap-2 text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-            <div>
-              <span className="text-slate-400 text-[10px] block">预算目标 (元)</span>
-              <span className="text-slate-700 font-extrabold font-mono text-sm">¥{(zushanData.rawRevenue * 1.15).toFixed(0)}</span>
-            </div>
-            <div className="text-right">
-              <span className="text-slate-400 text-[10px] block">当前达成率</span>
-              <span className="text-blue-600 font-black text-sm">{((zushanData.rawRevenue / (zushanData.rawRevenue * 1.15)) * 100).toFixed(1)}%</span>
-            </div>
+          <div className="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <span className="text-slate-400 text-[10px] font-bold">{dimension === 'year' ? '年度创值计划（6月）' : '月度创值计划（6月）'}</span>
+            <span className="text-slate-700 font-extrabold font-mono text-sm">¥{(zushanData.rawRevenue * 1.15).toFixed(0)}</span>
           </div>
 
           <div className="space-y-2">

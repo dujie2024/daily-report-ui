@@ -31,23 +31,19 @@ export const LangtaoshaCompany = ({
         </div>
       </div>
 
-      {/* KPI 数据网格 - 只保留总收入和总客流 */}
+      {/* KPI 数据网格 - 紧凑排版 */}
       <div className="grid grid-cols-2 gap-3">
         {/* 总收入 (元) */}
-        <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-slate-400 text-[10px] font-bold">总收入 (元)</span>
+            <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
+              <DollarSign className="w-3 h-3" />
+            </div>
+          </div>
           <div className="flex items-center justify-between">
-            <span className="text-slate-400 text-[11px] font-bold">总收入 (元)</span>
-            <div className="w-6 h-6 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
-              <DollarSign className="w-3.5 h-3.5" />
-            </div>
-          </div>
-          <div className="my-1.5">
-            <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-              ¥{langtaoshaData.revenue}
-            </div>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">¥{langtaoshaData.revenue}</span>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
               <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
               同比 {langtaoshaData.revenueTrend}
             </span>
@@ -55,20 +51,16 @@ export const LangtaoshaCompany = ({
         </div>
 
         {/* 总客流 (人次) */}
-        <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-slate-400 text-[10px] font-bold">总客流 (人次)</span>
+            <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
+              <Users className="w-3 h-3" />
+            </div>
+          </div>
           <div className="flex items-center justify-between">
-            <span className="text-slate-400 text-[11px] font-bold">总客流 (人次)</span>
-            <div className="w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-              <Users className="w-3.5 h-3.5" />
-            </div>
-          </div>
-          <div className="my-1.5">
-            <div className="text-slate-800 text-lg font-black tracking-tight whitespace-nowrap font-mono">
-              {langtaoshaData.visitors}
-            </div>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{langtaoshaData.visitors}</span>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
               <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
               同比 {langtaoshaData.visitorsTrend}
             </span>
