@@ -1608,6 +1608,8 @@ export default function App() {
                   haishangyouShips={haishangyouShips}
                   userRole={userRole}
                   setActiveTab={setActiveTab}
+                  dimension={dimension}
+                  setDimension={setDimension}
                 />
               )}
 
