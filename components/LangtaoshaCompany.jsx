@@ -34,24 +34,6 @@ export const LangtaoshaCompany = ({
 
   return (
     <div className="space-y-4">
-      {/* 浪淘沙头部信息卡 - 标题与日期切换同行 */}
-      <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-black text-slate-800">浪淘沙经营看板</h2>
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-bold">岸基沙滩</span>
-            <div className="bg-slate-100 p-0.5 rounded-xl flex shadow-inner">
-              {['day','month','year'].map(d => (
-                <button key={d} onClick={() => setDimension?.(d)}
-                  className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all ${dimension === d ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>
-                  {d === 'day' ? '本日' : d === 'month' ? '本月' : '本年'}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* KPI 数据网格 */}
       <div className="space-y-3">
         {/* 总收入 (元) - 独占一行 */}
@@ -63,7 +45,7 @@ export const LangtaoshaCompany = ({
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{fm(langtaoshaData.revenue)}</span>
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{langtaoshaData.revenue}</span>
             <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
               <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
               同比 {langtaoshaData.revenueTrend}
@@ -113,7 +95,7 @@ export const LangtaoshaCompany = ({
         <div className="space-y-3.5">
           <div className="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100">
             <span className="text-slate-400 text-[10px] font-bold">{dimension === 'year' ? '年度创值计划（6月）' : '月度创值计划（6月）'}</span>
-            <span className="text-slate-700 font-extrabold font-mono text-sm">¥{(langtaoshaData.rawRevenue * 1.15).toFixed(0)}</span>
+            <span className="text-slate-700 font-extrabold font-mono text-sm">{Math.round(langtaoshaData.rawRevenue * 1.15).toLocaleString('en-US')}</span>
           </div>
 
           <div className="space-y-2">

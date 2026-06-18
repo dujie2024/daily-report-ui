@@ -45,7 +45,7 @@ export const ZushanCompany = ({
   const D = 'items-center py-1.5 hover:bg-slate-50 rounded';
 
   const kpis = [
-    {l:'总收入 (元)', v:`¥${zushanData.revenue}`, t:zushanData.revenueTrend, ic:DollarSign, bg:'bg-emerald-50', tc:'text-emerald-500'},
+    {l:'总收入 (元)', v:zushanData.revenue, t:zushanData.revenueTrend, ic:DollarSign, bg:'bg-emerald-50', tc:'text-emerald-500'},
     {l:'总客流 (人次)', v:zushanData.visitors, t:zushanData.visitorsTrend, ic:Users, bg:'bg-blue-50', tc:'text-blue-500'},
     {l:'收费客流 (人次)', v:zushanData.paidVisitors, t:null, ic:Activity, bg:'bg-indigo-50', tc:'text-indigo-500'},
     {l:'接待客流 (人次)', v:zushanData.receptionVisitors, t:null, ic:UserCheck, bg:'bg-purple-50', tc:'text-purple-500'},
@@ -53,22 +53,6 @@ export const ZushanCompany = ({
 
   return (
     <div className="space-y-4">
-      <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-black text-slate-800">祖山景区经营看板</h2>
-          <span className="text-[10px] text-slate-400 font-extrabold font-mono">数据日期：2026-04-21</span>
-        </div>
-      </div>
-
-      <div className="bg-slate-100 p-0.5 rounded-xl flex shadow-inner">
-        {['day','month','year'].map(d => (
-          <button key={d} onClick={() => setDimension?.(d)}
-            className={`flex-1 text-center py-1.5 text-[11px] font-bold rounded-lg transition-all ${dimension === d ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>
-            {d === 'day' ? '本日数据' : d === 'month' ? '本月数据' : '本年数据'}
-          </button>
-        ))}
-      </div>
-
       <div className="grid grid-cols-2 gap-3">
         {kpis.map((k,i) => {
           const IC = k.ic;
@@ -95,7 +79,7 @@ export const ZushanCompany = ({
         <div className="space-y-3.5">
           <div className="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100">
             <span className="text-slate-400 text-[10px] font-bold">{dimension === 'year' ? '年度创值计划（6月）' : '月度创值计划（6月）'}</span>
-            <span className="text-slate-700 font-extrabold font-mono text-sm">¥{(zushanData.rawRevenue * 1.15).toFixed(0)}</span>
+            <span className="text-slate-700 font-extrabold font-mono text-sm">{Math.round(zushanData.rawRevenue * 1.15).toLocaleString('en-US')}</span>
           </div>
           <div className="space-y-2">
             {[
@@ -203,7 +187,7 @@ export const ZushanCompany = ({
         </div>
         <div className="bg-gradient-to-br from-indigo-50 to-blue-50 p-4 rounded-xl border border-indigo-100">
           <div className="flex items-center justify-between">
-            <div><span className="text-xs text-slate-500 block mb-1">祖山门票客单</span><div className="flex items-baseline gap-2"><span className="text-2xl font-black text-indigo-600 font-mono">¥{zushanProductPrice.ticketPrice}</span><span className="text-xs text-slate-400">/人次</span></div></div>
+            <div><span className="text-xs text-slate-500 block mb-1">祖山门票客单</span><div className="flex items-baseline gap-2"><span className="text-2xl font-black text-indigo-600 font-mono">{zushanProductPrice.ticketPrice}</span><span className="text-xs text-slate-400">/人次</span></div></div>
             <span className={`inline-flex items-center px-2 py-1 rounded-lg text-xs font-bold ${zushanProductPrice.isUp?'bg-emerald-100 text-emerald-700':'bg-rose-100 text-rose-700'}`}><TrendingUp className="w-3 h-3 mr-0.5"/>同比 {zushanProductPrice.trend}</span>
           </div>
         </div>

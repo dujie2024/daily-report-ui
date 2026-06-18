@@ -262,11 +262,7 @@ export default function App() {
     const paidVisitors = Math.round(zushanVisitors * 0.85); // 85%为收费客流
     const receptionVisitors = Math.round(zushanVisitors * 0.15); // 15%为接待客流
     
-    const fmtNum = (n) => {
-      if (n >= 1000000) return '¥' + (n / 1000000).toFixed(2) + 'M';
-      if (n >= 1000) return '¥' + (n / 1000).toFixed(2) + 'K';
-      return '¥' + n.toFixed(2);
-    };
+    const fmtNum = (n) => Math.round(n).toLocaleString('en-US');
     
     const fmtInt = (n) => Math.round(n).toLocaleString('en-US');
     
@@ -446,11 +442,7 @@ export default function App() {
     const diningRevenue = xiaozhenRevenue * 0.32; // 餐饮收入占32%
     const diningAvg = Math.round(diningRevenue / diningGuests); // 餐饮收入 / 餐饮接待量
     
-    const fmtNum = (n) => {
-      if (n >= 1000000) return `${(n / 1000000).toFixed(2)}M`;
-      if (n >= 1000) return `${(n / 1000).toFixed(2)}K`;
-      return n.toFixed(2);
-    };
+    const fmtNum = (n) => Math.round(n).toLocaleString('en-US');
     const fmtInt = (n) => Math.round(n).toLocaleString('en-US');
     
     return {
@@ -464,9 +456,9 @@ export default function App() {
       occupancyRateTrend: '+5.2%',
       diningGuests: fmtInt(diningGuests),
       diningGuestsTrend: '+11.5%',
-      adr: `¥${adr}`,
+      adr: `${adr}`,
       adrTrend: '+8.5%',
-      diningAvg: `¥${diningAvg}`,
+      diningAvg: `${diningAvg}`,
       diningAvgTrend: '+9.2%',
       rawRevenue: xiaozhenRevenue,
       rawVisitors: xiaozhenVisitors,
@@ -631,18 +623,13 @@ export default function App() {
                        Math.round(haishangyouVisitors * 0.32 / 90) +  // 寻仙2号
                        Math.round(haishangyouVisitors * 0.23 / 60);   // 求仙6号
     
-    const fmtNum = (n) => {
-      if (n >= 1000000) return `${(n / 1000000).toFixed(2)}M`;
-      if (n >= 1000) return `${(n / 1000).toFixed(2)}K`;
-      return n.toFixed(2);
-    };
     const fmtInt = (n) => Math.round(n).toLocaleString('en-US');
     
     // 计算总体客单价
     const avgPrice = Math.round(haishangyouRevenue / haishangyouVisitors);
     
     return {
-      revenue: fmtNum(haishangyouRevenue),
+      revenue: fmtInt(haishangyouRevenue),
       revenueTrend: config.revenueTrend,
       visitors: fmtInt(haishangyouVisitors),
       visitorsTrend: config.visitorsTrend,
@@ -652,7 +639,7 @@ export default function App() {
       receptionVisitorsTrend: config.receptionVisitorsTrend,
       totalTrips: fmtInt(totalTrips),
       totalTripsTrend: '+13.5%',
-      avgPrice: `¥${avgPrice}`,
+      avgPrice: `${avgPrice}`,
       avgPriceTrend: '+4.8%',
       rawRevenue: haishangyouRevenue,
       rawVisitors: haishangyouVisitors,
@@ -752,15 +739,10 @@ export default function App() {
     const paidVisitors = Math.round(langtaoshaVisitors * config.paidRatio);
     const receptionVisitors = Math.round(langtaoshaVisitors * config.receptionRatio);
     
-    const fmtNum = (n) => {
-      if (n >= 1000000) return `${(n / 1000000).toFixed(2)}M`;
-      if (n >= 1000) return `${(n / 1000).toFixed(2)}K`;
-      return n.toFixed(2);
-    };
     const fmtInt = (n) => Math.round(n).toLocaleString('en-US');
     
     return {
-      revenue: fmtNum(langtaoshaRevenue),
+      revenue: fmtInt(langtaoshaRevenue),
       revenueTrend: config.revenueTrend,
       visitors: fmtInt(langtaoshaVisitors),
       visitorsTrend: config.visitorsTrend,
@@ -1538,7 +1520,7 @@ export default function App() {
                               <span className="text-xs font-bold text-slate-700 truncate">{item.name}</span>
                             </div>
                             <div className="flex items-center gap-2 shrink-0">
-                              <span className="text-xs font-extrabold text-slate-900 font-mono">¥{item.revenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                              <span className="text-xs font-extrabold text-slate-900 font-mono">{item.revenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                               <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${item.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
                                 同比 {item.trend}
                               </span>

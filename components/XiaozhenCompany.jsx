@@ -59,21 +59,6 @@ export const XiaozhenCompany = ({
 
   return (
     <div className="space-y-4">
-      {/* 天女小镇头部信息卡 - 标题与日期切换同行 */}
-      <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-black text-slate-800">天女小镇经营看板</h2>
-          <div className="bg-slate-100 p-0.5 rounded-xl flex shadow-inner">
-            {['day','month','year'].map(d => (
-              <button key={d} onClick={() => setDimension?.(d)}
-                className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all ${dimension === d ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>
-                {d === 'day' ? '本日' : d === 'month' ? '本月' : '本年'}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* KPI 数据网格 - 紧凑排版 */}
       <div className="space-y-3">
         {/* 总收入 (元) - 独占一行 */}
@@ -85,7 +70,7 @@ export const XiaozhenCompany = ({
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-slate-800 text-base font-black tracking-tight font-mono">¥{fm(xiaozhenData.revenue)}</span>
+            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{xiaozhenData.revenue}</span>
             <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
               <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
               同比 {xiaozhenData.revenueTrend}
@@ -176,7 +161,7 @@ export const XiaozhenCompany = ({
         <div className="space-y-3.5">
           <div className="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100">
             <span className="text-slate-400 text-[10px] font-bold">{dimension === 'year' ? '年度创值计划（6月）' : '月度创值计划（6月）'}</span>
-            <span className="text-slate-700 font-extrabold font-mono text-sm">¥{(xiaozhenData.rawRevenue * 1.15).toFixed(0)}</span>
+            <span className="text-slate-700 font-extrabold font-mono text-sm">{Math.round(xiaozhenData.rawRevenue * 1.15).toLocaleString('en-US')}</span>
           </div>
 
           <div className="space-y-2">
@@ -386,13 +371,13 @@ export const XiaozhenCompany = ({
                 <div className="flex-1">
                   <div className="text-[9px] text-slate-500 font-bold">停车收入</div>
                   <div className="text-sm font-black tracking-tight font-mono text-slate-800">
-                    ¥{(parking.revenue / 1000).toFixed(1)}K
+                    {parking.revenue.toLocaleString('en-US')}
                   </div>
                 </div>
               </div>
 
               <div className="flex items-center justify-between pt-1.5 border-t border-indigo-100">
-                <span className="text-[10px] text-slate-500 font-bold">单价: ¥{parking.avgPrice}</span>
+                <span className="text-[10px] text-slate-500 font-bold">单价: {parking.avgPrice}</span>
                 <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${parking.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
                   {parking.trend}
                 </span>
@@ -412,13 +397,13 @@ export const XiaozhenCompany = ({
           <div className="text-slate-500">
             <span className="font-bold">总收入：</span>
             <span className="font-mono text-indigo-700 font-black">
-              ¥{(xiaozhenParkingData.reduce((sum, p) => sum + p.revenue, 0) / 1000).toFixed(1)}K
+              {Math.round(xiaozhenParkingData.reduce((sum, p) => sum + p.revenue, 0)).toLocaleString('en-US')}
             </span>
           </div>
           <div className="text-slate-500">
             <span className="font-bold">均价：</span>
             <span className="font-mono text-indigo-700 font-black">
-              ¥{(xiaozhenParkingData.reduce((sum, p) => sum + p.revenue, 0) / xiaozhenParkingData.reduce((sum, p) => sum + p.vehicles, 0)).toFixed(0)}
+              {Math.round(xiaozhenParkingData.reduce((sum, p) => sum + p.revenue, 0) / xiaozhenParkingData.reduce((sum, p) => sum + p.vehicles, 0)).toLocaleString('en-US')}
             </span>
           </div>
         </div>
