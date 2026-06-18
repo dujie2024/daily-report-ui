@@ -309,6 +309,26 @@ export const ZushanCompany = ({
         <div className="mt-2 pt-2 border-t border-slate-100 flex items-center gap-2 text-[10px] text-slate-400"><span className="w-2 h-2 rounded-sm bg-blue-500"></span><span>联营商户流水仅作参考</span></div>
       </div>
 
+      {/* 备注说明 */}
+      <div className="bg-amber-50 p-4 rounded-2xl shadow-sm border border-amber-200">
+        <div className="flex items-start gap-2">
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="w-1.5 h-3.5 bg-amber-600 rounded-full"></span>
+            <h3 className="text-slate-800 text-xs font-bold tracking-wide">备注说明</h3>
+          </div>
+        </div>
+        <div className="mt-3 space-y-2">
+          <p className="text-xs text-slate-700 leading-relaxed">
+            <span className="font-bold text-amber-700">• 特殊收入说明：</span>
+            2025年端午节滨海总收入包括一次性购买浪淘沙船票2000张11万元，一卡通收入8万元。
+          </p>
+          <p className="text-xs text-slate-700 leading-relaxed">
+            <span className="font-bold text-amber-700">• 客流统计说明：</span>
+            客流量和船票收入未含一次性购买浪淘沙船票的2000人次和收入。
+          </p>
+        </div>
+      </div>
+
       {userRole === 'admin' && (
         <button onClick={()=>setActiveTab('platform')} className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 py-3 rounded-xl text-xs font-bold transition-all">返回平台总览</button>
       )}
