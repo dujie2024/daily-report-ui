@@ -37,7 +37,8 @@ import { ZushanCompany } from './components/ZushanCompany';
 import { XiaozhenCompany } from './components/XiaozhenCompany';
 import { HaishangyouCompany } from './components/HaishangyouCompany';
 import { LangtaoshaCompany } from './components/LangtaoshaCompany';
-import { haishangyouConfig, langtaoshaConfig } from './data/companyConfigs';
+import { QihangCompany } from './components/QihangCompany';
+import { haishangyouConfig, langtaoshaConfig, qihangConfig } from './data/companyConfigs';
 
 export default function App() {
   // 登录与权限状态
@@ -777,6 +778,52 @@ export default function App() {
   
   const langtaoshaBusinessRevenue = langtaoshaConfig.businessRevenue(langtaoshaData.rawRevenue);
 
+  // 启航公司数据函数
+  const getQihangData = () => {
+    const config = qihangConfig;
+    const qihangRevenue = totalRevVal * config.proportion;
+    const qihangVisitors = totalVisVal * config.proportion;
+    const paidVisitors = Math.round(qihangVisitors * config.paidRatio);
+    const receptionVisitors = Math.round(qihangVisitors * config.receptionRatio);
+    
+    const fmtInt = (n) => Math.round(n).toLocaleString('en-US');
+    
+    return {
+      revenue: fmtInt(qihangRevenue),
+      revenueTrend: config.revenueTrend,
+      visitors: fmtInt(qihangVisitors),
+      visitorsTrend: config.visitorsTrend,
+      paidVisitors: fmtInt(paidVisitors),
+      paidVisitorsTrend: config.paidVisitorsTrend,
+      receptionVisitors: fmtInt(receptionVisitors),
+      receptionVisitorsTrend: config.receptionVisitorsTrend,
+      rawRevenue: qihangRevenue,
+      rawVisitors: qihangVisitors,
+    };
+  };
+  
+  const qihangData = getQihangData();
+  
+  const qihangChannelSales = qihangConfig.channelConfig.map(channel => ({
+    name: channel.name,
+    quantity: Math.round(qihangData.rawVisitors * channel.visitorRatio),
+    revenue: qihangData.rawRevenue * channel.revenueRatio,
+    trend: channel.trend,
+    isUp: channel.isUp,
+    bgColor: channel.bgColor
+  }));
+  
+  const qihangRevenueStructure = qihangConfig.revenueStructure.map(item => ({
+    name: item.name,
+    value: qihangData.rawRevenue * item.ratio,
+    ratio: Math.round(item.ratio * 100),
+    color: item.color,
+    trend: item.trend,
+    isUp: item.isUp
+  }));
+  
+  const qihangBusinessRevenue = qihangConfig.businessRevenue(qihangData.rawRevenue);
+
   const zushanBusinessRevenue = [
     // 自营商户（3家）- 流水全部计入收入
     { 
@@ -1329,7 +1376,7 @@ export default function App() {
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-3.5 bg-blue-600 rounded-full"></span>
                     <h2 className="text-slate-800 text-sm font-bold tracking-wide">
-                      {activeTab === 'platform' ? '旅游港经营总览' : activeTab === 'zushan' ? '祖山景区经营看板' : activeTab === 'xiaozhen' ? '天女小镇经营看板' : activeTab === 'haishangyou' ? '海上游经营看板' : activeTab === 'langtaosha' ? '浪淘沙经营看板' : '经营看板'}
+                      {activeTab === 'platform' ? '旅游港经营总览' : activeTab === 'zushan' ? '祖山景区经营看板' : activeTab === 'xiaozhen' ? '天女小镇经营看板' : activeTab === 'haishangyou' ? '海上游经营看板' : activeTab === 'langtaosha' ? '浪淘沙经营看板' : activeTab === 'qihang' ? '启航公司经营看板' : '经营看板'}
                     </h2>
                   </div>
                   <div 
@@ -1608,6 +1655,20 @@ export default function App() {
                   langtaoshaChannelSales={langtaoshaChannelSales}
                   langtaoshaRevenueStructure={langtaoshaRevenueStructure}
                   langtaoshaBusinessRevenue={langtaoshaBusinessRevenue}
+                  userRole={userRole}
+                  setActiveTab={setActiveTab}
+                  dimension={dimension}
+                  setDimension={setDimension}
+                />
+              )}
+
+              {/* 启航公司看板 */}
+              {activeTab === 'qihang' && (
+                <QihangCompany
+                  qihangData={qihangData}
+                  qihangChannelSales={qihangChannelSales}
+                  qihangRevenueStructure={qihangRevenueStructure}
+                  qihangBusinessRevenue={qihangBusinessRevenue}
                   userRole={userRole}
                   setActiveTab={setActiveTab}
                   dimension={dimension}
@@ -2129,6 +2190,17 @@ export default function App() {
                 >
                   <Waves className="w-5 h-5" />
                   <span className="text-[10px]">浪淘沙</span>
+                </button>
+              )}
+
+              {/* 启航公司 Tab */}
+              {userRole === 'admin' && (
+                <button 
+                  onClick={() => setActiveTab('qihang')}
+                  className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'qihang' ? 'text-cyan-600 font-bold' : 'text-slate-400 hover:text-slate-600'}`}
+                >
+                  <Anchor className="w-5 h-5" />
+                  <span className="text-[10px]">启航公司</span>
                 </button>
               )}
 

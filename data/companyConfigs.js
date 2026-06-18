@@ -96,3 +96,41 @@ export const langtaoshaConfig = {
     { name: '炒饭', type: '联营', rentMode: '保底+流水', baseRent: '2万', shareRate: '25%', transactions: 1123, revenue: 26000, trend: '+15.2%', isUp: true },
   ]
 };
+
+// 启航公司配置（与浪淘沙模式相同，规模体量类似）
+export const qihangConfig = {
+  proportion: 0.0735, // 占平台总量的7.35%
+  paidRatio: 0.85,
+  receptionRatio: 0.15,
+  revenueTrend: '+10.5%',
+  visitorsTrend: '+8.8%',
+  paidVisitorsTrend: '+9.5%',
+  receptionVisitorsTrend: '+6.2%',
+  
+  channelConfig: [
+    { name: '团队', visitorRatio: 0.35, revenueRatio: 0.38, trend: '+12.5%', isUp: true, bgColor: 'bg-blue-50' },
+    { name: '分销', visitorRatio: 0.24, revenueRatio: 0.26, trend: '+10.8%', isUp: true, bgColor: 'bg-emerald-50' },
+    { name: 'OTA', visitorRatio: 0.22, revenueRatio: 0.21, trend: '+9.2%', isUp: true, bgColor: 'bg-amber-50' },
+    { name: '新媒体及小程序', visitorRatio: 0.12, revenueRatio: 0.10, trend: '+16.5%', isUp: true, bgColor: 'bg-purple-50' },
+    { name: '散客', visitorRatio: 0.07, revenueRatio: 0.05, trend: '+4.5%', isUp: true, bgColor: 'bg-rose-50' },
+  ],
+  
+  revenueStructure: [
+    { name: '固定租金', ratio: 0.40, color: '#3b82f6', trend: '+7.5%', isUp: true },
+    { name: '流水分成', ratio: 0.33, color: '#10b981', trend: '+13.8%', isUp: true },
+    { name: '流水超额分成', ratio: 0.20, color: '#f59e0b', trend: '+20.5%', isUp: true },
+    { name: '其他收入', ratio: 0.07, color: '#64748b', trend: '+5.8%', isUp: true },
+  ],
+  
+  businessRevenue: (totalRevenue) => [
+    // 联营-固定租金（1家）
+    { name: '小卖部', type: '联营', rentMode: '固定租金', baseRent: '2万', transactions: 756, revenue: 20000, trend: '+6.2%', isUp: true },
+    
+    // 联营-直接分成 / 流水抽成（1家）
+    { name: '望海餐厅', type: '联营', rentMode: '直接分成', shareRate: '25%-8%', transactions: 1567, revenue: 320000, trend: '+20.5%', isUp: true },
+    
+    // 联营-保底+流水（2家）
+    { name: '海鲜大排档', type: '联营', rentMode: '保底+流水', baseRent: '30万', shareRate: '6%-10%', transactions: 1123, revenue: 450000, trend: '+16.5%', isUp: true },
+    { name: '奶茶店', type: '联营', rentMode: '保底+流水', baseRent: '8万', shareRate: '20%', transactions: 1567, revenue: 95000, trend: '+18.8%', isUp: true },
+  ]
+};
