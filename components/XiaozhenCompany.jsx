@@ -188,62 +188,72 @@ export const XiaozhenCompany = ({
         </div>
       </div>
 
-      {/* === 主营业态收入（3列: 业态 | 收入金额 | 同比）紧凑简洁 === */}
+      {/* === 主营业态收入（3列）=== */}
       <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-        <div className="flex items-center gap-1.5 mb-2">
+        <div className="flex items-center gap-1.5 mb-2.5">
           <span className="w-1 h-3.5 bg-purple-600 rounded-full shrink-0"></span>
           <h3 className="text-slate-800 text-xs font-bold">主营业态收入（{dl}）</h3>
         </div>
-        <div className="grid grid-cols-[1fr_90px_70px] text-[10px] text-slate-500 font-bold mb-1 pb-1 border-b border-slate-200 items-center">
-          <div>业态</div>
-          <div className="text-right">收入金额</div>
-          <div className="text-center">同比</div>
+        {/* 表头行 - 顺序：业态(35%) -> 收入金额(40%) -> 同比(25%) */}
+        <div className="flex items-center w-full text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
+          <div style={{ width: '35%' }} className="text-left">业态</div>
+          <div style={{ width: '40%' }} className="text-right pr-4">收入金额</div>
+          <div style={{ width: '25%' }} className="text-center">同比</div>
         </div>
+        {/* 数据行 */}
         {xiaozhenRevenueStructure.map((d, j) => (
-          <div key={j} className="grid grid-cols-[1fr_90px_70px] items-center py-1 hover:bg-slate-50 rounded">
-            <div className="flex items-center gap-1">
-              <span className="w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: d.color }}></span>
-              <span className="text-[11px] font-bold text-slate-700 truncate">{d.name}</span>
+          <div key={j} className="flex items-center w-full text-[11px] py-1.5 hover:bg-slate-50 rounded whitespace-nowrap overflow-hidden">
+            <div style={{ width: '35%' }} className="text-left flex items-center gap-1 min-w-0">
+              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: d.color }}></span>
+              <span className="text-slate-700 font-medium truncate">{d.name}</span>
             </div>
-            <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{fm(d.value)}</span>
-            <span className={`text-center text-[9px] font-bold px-1 py-0.5 rounded ${d.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{d.trend}</span>
+            <div style={{ width: '40%' }} className="text-right font-semibold text-slate-800 font-mono truncate pr-4">{fm(d.value)}</div>
+            <div style={{ width: '25%' }} className="flex justify-center items-center min-w-0">
+              <span className={`inline-block text-center px-1 py-0.5 rounded text-[10px] font-bold truncate ${d.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{d.trend}</span>
+            </div>
           </div>
         ))}
-        <div className="grid grid-cols-[1fr_90px_70px] items-center py-1 mt-1 border-t border-slate-200 bg-slate-50 rounded">
-          <span className="text-[11px] font-bold text-slate-800">小计</span>
-          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{fm(revenueSubtotal)}</span>
-          <span></span>
+        {/* 小计行 */}
+        <div className="flex items-center w-full text-[11px] mt-1 border-t border-slate-100 bg-slate-50 py-1.5 rounded whitespace-nowrap">
+          <div style={{ width: '35%' }} className="text-left font-bold text-slate-800 pl-1">小计</div>
+          <div style={{ width: '40%' }} className="text-right font-extrabold text-slate-800 font-mono pr-4">{fm(revenueSubtotal)}</div>
+          <div style={{ width: '25%' }}></div>
         </div>
       </div>
 
-      {/* === 渠道销售情况（4列: 渠道 | 间夜数 | 销售收入 | 同比）紧凑简洁 === */}
+      {/* === 渠道销售情况（4列: 渠道 | 间夜数 | 销售收入 | 同比）=== */}
       <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
         <div className="flex items-center gap-1.5 mb-2">
           <span className="w-1 h-3.5 bg-blue-600 rounded-full shrink-0"></span>
           <h3 className="text-slate-800 text-xs font-bold">渠道销售情况（{dl}）</h3>
         </div>
-        <div className="grid grid-cols-[1fr_50px_90px_70px] text-[10px] text-slate-500 font-bold mb-1 pb-1 border-b border-slate-200 items-center">
-          <div>渠道</div>
-          <div className="text-right">间夜数</div>
-          <div className="text-right">销售收入</div>
-          <div className="text-center">同比</div>
+        {/* 表头 */}
+        <div className="flex items-center w-full text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
+          <div style={{ width: '35%' }} className="text-left">渠道</div>
+          <div style={{ width: '15%' }} className="text-right">间夜数</div>
+          <div style={{ width: '30%' }} className="text-right pr-4">销售收入</div>
+          <div style={{ width: '20%' }} className="text-center">同比</div>
         </div>
+        {/* 数据行 */}
         {xiaozhenChannelSales.map((d, j) => (
-          <div key={j} className="grid grid-cols-[1fr_50px_90px_70px] items-center py-1 hover:bg-slate-50 rounded">
-            <div className="flex items-center gap-1">
-              <span className={`w-1 h-1 rounded-full shrink-0 ${d.bgColor}`}></span>
-              <span className="text-[11px] font-bold text-slate-700 truncate">{d.name}</span>
+          <div key={j} className="flex items-center w-full text-[11px] py-1.5 hover:bg-slate-50 rounded whitespace-nowrap overflow-hidden">
+            <div style={{ width: '35%' }} className="text-left flex items-center gap-1 min-w-0">
+              <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${d.bgColor}`}></span>
+              <span className="text-slate-700 font-medium truncate">{d.name}</span>
             </div>
-            <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{d.quantity.toLocaleString('en-US')}</span>
-            <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{fm(d.revenue)}</span>
-            <span className={`text-center text-[9px] font-bold px-1 py-0.5 rounded ${d.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{d.trend}</span>
+            <div style={{ width: '15%' }} className="text-right font-mono text-slate-800 font-semibold">{d.quantity.toLocaleString('en-US')}</div>
+            <div style={{ width: '30%' }} className="text-right font-mono text-slate-800 font-semibold truncate pr-4">{fm(d.revenue)}</div>
+            <div style={{ width: '20%' }} className="flex justify-center items-center min-w-0">
+              <span className={`inline-block text-center px-1 py-0.5 rounded text-[10px] font-bold truncate ${d.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{d.trend}</span>
+            </div>
           </div>
         ))}
-        <div className="grid grid-cols-[1fr_50px_90px_70px] items-center py-1 mt-1 border-t border-slate-200 bg-slate-50 rounded">
-          <span className="text-[11px] font-bold text-slate-800">小计</span>
-          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{channelSubtotalQty.toLocaleString('en-US')}</span>
-          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{fm(channelSubtotalRev)}</span>
-          <span></span>
+        {/* 小计行 */}
+        <div className="flex items-center w-full text-[11px] mt-1 border-t border-slate-100 bg-slate-50 py-1.5 rounded whitespace-nowrap">
+          <div style={{ width: '35%' }} className="text-left font-bold text-slate-800 pl-1">小计</div>
+          <div style={{ width: '15%' }} className="text-right font-extrabold text-slate-800 font-mono">{channelSubtotalQty.toLocaleString('en-US')}</div>
+          <div style={{ width: '30%' }} className="text-right font-extrabold text-slate-800 font-mono pr-4">{fm(channelSubtotalRev)}</div>
+          <div style={{ width: '20%' }}></div>
         </div>
       </div>
 
@@ -252,26 +262,32 @@ export const XiaozhenCompany = ({
         <div className="flex items-center gap-1.5 mb-2">
           <span className="w-1 h-3.5 bg-emerald-600 rounded-full shrink-0"></span>
           <h3 className="text-slate-800 text-xs font-bold">住宿分项收入情况（{dl}）</h3>
+          <span className="text-[10px] text-slate-400 ml-auto">共 {xiaozhenBusinessRevenue.length} 家</span>
         </div>
-        <div className="grid grid-cols-[1fr_70px_100px_70px] text-[10px] text-slate-500 font-bold mb-1 pb-1 border-b border-slate-200 items-center">
-          <div>酒店名称</div>
-          <div className="text-right">间夜数</div>
-          <div className="text-right">收入金额</div>
-          <div className="text-center">同比</div>
+        {/* 表头 */}
+        <div className="flex items-center w-full text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
+          <div style={{ width: '35%' }} className="text-left">酒店名称</div>
+          <div style={{ width: '15%' }} className="text-right">间夜数</div>
+          <div style={{ width: '30%' }} className="text-right pr-4">收入金额</div>
+          <div style={{ width: '20%' }} className="text-center">同比</div>
         </div>
+        {/* 数据行 */}
         {xiaozhenBusinessRevenue.map((b, j) => (
-          <div key={j} className="grid grid-cols-[1fr_70px_100px_70px] items-center py-1 hover:bg-emerald-50/30 border-l-2 border-emerald-500 pl-2 rounded">
-            <span className="text-[11px] font-bold text-slate-700 truncate">{b.name}</span>
-            <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{b.transactions.toLocaleString('en-US')}</span>
-            <span className="text-right text-[11px] font-mono text-emerald-700 font-semibold">{fm(b.revenue)}</span>
-            <span className={`text-center text-[9px] font-bold px-1 py-0.5 rounded ${b.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{b.trend}</span>
+          <div key={j} className="flex items-center w-full text-[11px] py-1.5 hover:bg-emerald-50/30 border-l-2 border-emerald-500 pl-2 rounded whitespace-nowrap overflow-hidden">
+            <div style={{ width: '35%' }} className="text-left font-medium text-slate-700 truncate">{b.name}</div>
+            <div style={{ width: '15%' }} className="text-right font-mono text-slate-800 font-semibold">{b.transactions.toLocaleString('en-US')}</div>
+            <div style={{ width: '30%' }} className="text-right font-mono text-emerald-700 font-semibold truncate pr-4">{fm(b.revenue)}</div>
+            <div style={{ width: '20%' }} className="flex justify-center items-center min-w-0">
+              <span className={`inline-block text-center px-1 py-0.5 rounded text-[10px] font-bold truncate ${b.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{b.trend}</span>
+            </div>
           </div>
         ))}
-        <div className="grid grid-cols-[1fr_70px_100px_70px] items-center py-1 mt-1 border-t border-slate-200 bg-slate-50 rounded">
-          <span className="text-[11px] font-bold text-slate-800">小计</span>
-          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{bizSubtotalQty.toLocaleString('en-US')}</span>
-          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{fm(bizSubtotalRev)}</span>
-          <span></span>
+        {/* 小计行 */}
+        <div className="flex items-center w-full text-[11px] mt-1 border-t border-slate-100 bg-slate-50 py-1.5 rounded whitespace-nowrap">
+          <div style={{ width: '35%' }} className="text-left font-bold text-slate-800 pl-1">小计</div>
+          <div style={{ width: '15%' }} className="text-right font-extrabold text-slate-800 font-mono">{bizSubtotalQty.toLocaleString('en-US')}</div>
+          <div style={{ width: '30%' }} className="text-right font-extrabold text-slate-800 font-mono pr-4">{fm(bizSubtotalRev)}</div>
+          <div style={{ width: '20%' }}></div>
         </div>
       </div>
 
@@ -295,18 +311,18 @@ export const XiaozhenCompany = ({
 
         {(pf==='mixed'||pf==='direct') && (
           <>
-            <div className="grid grid-cols-[1fr_90px_90px_70px] text-[10px] text-slate-500 font-bold mb-1 pb-1 border-b border-slate-200 items-center">
-              <div>商户名称</div>
-              <div className="text-right">经营流水</div>
-              <div className="text-right">流水分成</div>
-              <div className="text-center">同比</div>
+            {/* 表头 */}
+            <div className="flex items-center w-full text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
+              <div style={{ width: '40%' }} className="text-left">商户名称</div>
+              <div style={{ width: '30%' }} className="text-right">经营流水</div>
+              <div style={{ width: '30%' }} className="text-right pr-4">流水分成</div>
             </div>
+            {/* 数据行 */}
             {fpb.map((b,j) => (
-              <div key={j} className={`grid grid-cols-[1fr_90px_90px_70px] items-center py-1 border-l-2 pl-2 rounded ${pf==='mixed'?'hover:bg-purple-50/50 border-purple-500':'hover:bg-emerald-50/50 border-emerald-500'}`}>
-                <span className="text-[11px] font-bold text-slate-700 truncate">{b.name}</span>
-                <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{fm(b.revenue)}</span>
-                <span className="text-right text-[11px] font-mono font-semibold" style={{color:pf==='mixed'?'#7c3aed':'#059669'}}>{fm(cfs(b))}</span>
-                <span className={`text-center text-[9px] font-bold px-1 py-0.5 rounded ${b.isUp?'bg-emerald-50 text-emerald-600':'bg-rose-50 text-rose-600'}`}>{b.trend}</span>
+              <div key={j} className={`flex items-center w-full text-[11px] py-1.5 border-l-2 pl-2 rounded whitespace-nowrap overflow-hidden ${pf==='mixed'?'hover:bg-purple-50/50 border-purple-500':'hover:bg-emerald-50/50 border-emerald-500'}`}>
+                <div style={{ width: '40%' }} className="text-left font-medium text-slate-700 truncate">{b.name}</div>
+                <div style={{ width: '30%' }} className="text-right font-mono text-slate-800 font-semibold">{fm(b.revenue)}</div>
+                <div style={{ width: '30%', color: pf === 'mixed' ? '#7c3aed' : '#059669' }} className="text-right font-mono font-semibold truncate pr-4">{fm(cfs(b))}</div>
               </div>
             ))}
           </>
@@ -314,16 +330,16 @@ export const XiaozhenCompany = ({
 
         {pf==='fixed' && (
           <>
-            <div className="grid grid-cols-[1fr_90px_70px] text-[10px] text-slate-500 font-bold mb-1 pb-1 border-b border-slate-200 items-center">
-              <div>商户名称</div>
-              <div className="text-right">租金收入</div>
-              <div className="text-center">同比</div>
+            {/* 表头 */}
+            <div className="flex items-center w-full text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
+              <div style={{ width: '55%' }} className="text-left">商户名称</div>
+              <div style={{ width: '45%' }} className="text-right pr-4">租金收入</div>
             </div>
+            {/* 数据行 */}
             {fpb.map((b,j) => (
-              <div key={j} className="grid grid-cols-[1fr_90px_70px] items-center py-1 hover:bg-blue-50/50 border-l-2 border-blue-500 pl-2 rounded">
-                <span className="text-[11px] font-bold text-slate-700 truncate">{b.name}</span>
-                <span className="text-right text-[11px] font-mono text-blue-700 font-semibold">{fm(b.revenue)}</span>
-                <span className={`text-center text-[9px] font-bold px-1 py-0.5 rounded ${b.isUp?'bg-emerald-50 text-emerald-600':'bg-rose-50 text-rose-600'}`}>{b.trend}</span>
+              <div key={j} className="flex items-center w-full text-[11px] py-1.5 hover:bg-blue-50/50 border-l-2 border-blue-500 pl-2 rounded whitespace-nowrap overflow-hidden">
+                <div style={{ width: '55%' }} className="text-left font-medium text-slate-700 truncate">{b.name}</div>
+                <div style={{ width: '45%' }} className="text-right font-mono text-blue-700 font-semibold truncate pr-4">{fm(b.revenue)}</div>
               </div>
             ))}
           </>

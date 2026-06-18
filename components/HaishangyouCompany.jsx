@@ -195,25 +195,30 @@ export const HaishangyouCompany = ({
             className={`flex-1 px-3 py-2 rounded-md text-xs font-bold transition-all ${revenueFilter === 'ship3' ? 'bg-purple-500 text-white shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>求仙6号</button>
         </div>
 
-        <div className="grid grid-cols-[1fr_100px_70px] text-[10px] text-slate-500 font-bold mb-1 pb-1.5 border-b border-slate-200">
-          <div>业态</div>
-          <div className="text-right">收入金额</div>
-          <div className="text-center">同比</div>
+        {/* 表头行 - 顺序：业态(35%) -> 收入金额(40%) -> 同比(25%) */}
+        <div className="flex items-center w-full text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
+          <div style={{ width: '35%' }} className="text-left">业态</div>
+          <div style={{ width: '40%' }} className="text-right pr-4">收入金额</div>
+          <div style={{ width: '25%' }} className="text-center">同比</div>
         </div>
+        {/* 数据行 */}
         {getRevenueStructureData().map((d, j) => (
-          <div key={j} className="grid grid-cols-[1fr_100px_70px] items-center py-1.5 hover:bg-slate-50 rounded">
-            <div className="flex items-center gap-1.5">
+          <div key={j} className="flex items-center w-full text-[11px] py-1.5 hover:bg-slate-50 rounded whitespace-nowrap overflow-hidden">
+            <div style={{ width: '35%' }} className="text-left flex items-center gap-1 min-w-0">
               <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: d.color }}></span>
-              <span className="text-[11px] font-bold text-slate-700 truncate">{d.name}</span>
+              <span className="text-slate-700 font-medium truncate">{d.name}</span>
             </div>
-            <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{fm(d.value)}</span>
-            <span className={`text-center text-[9px] font-bold px-1 py-0.5 rounded ${d.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{d.trend}</span>
+            <div style={{ width: '40%' }} className="text-right font-semibold text-slate-800 font-mono truncate pr-4">{fm(d.value)}</div>
+            <div style={{ width: '25%' }} className="flex justify-center items-center min-w-0">
+              <span className={`inline-block text-center px-1 py-0.5 rounded text-[10px] font-bold truncate ${d.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{d.trend}</span>
+            </div>
           </div>
         ))}
-        <div className="grid grid-cols-[1fr_100px_70px] items-center py-1.5 mt-1 border-t border-slate-200 bg-slate-50 rounded">
-          <span className="text-[11px] font-bold text-slate-800">小计</span>
-          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{fm(revenueSubtotal)}</span>
-          <span></span>
+        {/* 小计行 */}
+        <div className="flex items-center w-full text-[11px] mt-1 border-t border-slate-100 bg-slate-50 py-1.5 rounded whitespace-nowrap">
+          <div style={{ width: '35%' }} className="text-left font-bold text-slate-800 pl-1">小计</div>
+          <div style={{ width: '40%' }} className="text-right font-extrabold text-slate-800 font-mono pr-4">{fm(revenueSubtotal)}</div>
+          <div style={{ width: '25%' }}></div>
         </div>
       </div>
 
@@ -259,23 +264,28 @@ export const HaishangyouCompany = ({
             </div>
 
             {/* 渠道表格 */}
-            <div className="grid grid-cols-[1fr_70px_90px_70px] text-[10px] text-slate-500 font-bold mb-1 pb-1 border-b border-slate-200">
-              <div>渠道</div><div className="text-right">客流量</div><div className="text-right">收入</div><div className="text-center">同比</div>
+            <div className="flex items-center w-full text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
+              <div style={{ width: '35%' }} className="text-left">渠道</div>
+              <div style={{ width: '18%' }} className="text-right">客流量</div>
+              <div style={{ width: '27%' }} className="text-right pr-4">收入</div>
+              <div style={{ width: '20%' }} className="text-center">同比</div>
             </div>
             {ship.channels.map((channel, ci) => (
-              <div key={ci} className="grid grid-cols-[1fr_70px_90px_70px] items-center py-1 hover:bg-cyan-50/30 rounded">
-                <span className="text-[11px] font-bold text-slate-700">{channel.name}</span>
-                <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{channel.passengers.toLocaleString('en-US')}</span>
-                <span className="text-right text-[11px] font-mono text-cyan-700 font-semibold">{fm(channel.revenue)}</span>
-                <span className={`text-center text-[9px] font-bold px-1 py-0.5 rounded ${channel.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{channel.trend}</span>
+              <div key={ci} className="flex items-center w-full text-[11px] py-1.5 hover:bg-cyan-50/30 rounded whitespace-nowrap overflow-hidden">
+                <div style={{ width: '35%' }} className="text-left font-medium text-slate-700 truncate">{channel.name}</div>
+                <div style={{ width: '18%' }} className="text-right font-mono text-slate-800 font-semibold">{channel.passengers.toLocaleString('en-US')}</div>
+                <div style={{ width: '27%' }} className="text-right font-mono text-cyan-700 font-semibold truncate pr-4">{fm(channel.revenue)}</div>
+                <div style={{ width: '20%' }} className="flex justify-center items-center min-w-0">
+                  <span className={`inline-block text-center px-1 py-0.5 rounded text-[10px] font-bold truncate ${channel.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{channel.trend}</span>
+                </div>
               </div>
             ))}
             {/* 小计行 */}
-            <div className="grid grid-cols-[1fr_70px_90px_70px] items-center py-1 mt-1 border-t border-slate-200 bg-slate-50 rounded">
-              <span className="text-[11px] font-bold text-slate-800">小计</span>
-              <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{chSub.passengers.toLocaleString('en-US')}</span>
-              <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{fm(chSub.revenue)}</span>
-              <span></span>
+            <div className="flex items-center w-full text-[11px] mt-1 border-t border-slate-100 bg-slate-50 py-1.5 rounded whitespace-nowrap">
+              <div style={{ width: '35%' }} className="text-left font-bold text-slate-800 pl-1">小计</div>
+              <div style={{ width: '18%' }} className="text-right font-extrabold text-slate-800 font-mono">{chSub.passengers.toLocaleString('en-US')}</div>
+              <div style={{ width: '27%' }} className="text-right font-extrabold text-slate-800 font-mono pr-4">{fm(chSub.revenue)}</div>
+              <div style={{ width: '20%' }}></div>
             </div>
           </div>
         );
@@ -286,23 +296,32 @@ export const HaishangyouCompany = ({
         <div className="flex items-center gap-1.5 mb-2">
           <span className="w-1 h-3.5 bg-blue-600 rounded-full shrink-0"></span>
           <h3 className="text-slate-800 text-xs font-bold">游船分项收入情况（{dl}）</h3>
+          <span className="text-[10px] text-slate-400 ml-auto">共 {haishangyouShips.length} 艘</span>
         </div>
-        <div className="grid grid-cols-[1fr_70px_100px_70px] text-[10px] text-slate-500 font-bold mb-1 pb-1.5 border-b border-slate-200">
-          <div>游船名称</div><div className="text-right">客流量</div><div className="text-right">收入金额</div><div className="text-center">同比</div>
+        {/* 表头 */}
+        <div className="flex items-center w-full text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
+          <div style={{ width: '35%' }} className="text-left">游船名称</div>
+          <div style={{ width: '18%' }} className="text-right">客流量</div>
+          <div style={{ width: '27%' }} className="text-right pr-4">收入金额</div>
+          <div style={{ width: '20%' }} className="text-center">同比</div>
         </div>
+        {/* 数据行 */}
         {haishangyouShips.map((ship, j) => (
-          <div key={j} className="grid grid-cols-[1fr_70px_100px_70px] items-center py-1.5 hover:bg-blue-50/30 border-l-2 border-blue-500 pl-2 rounded">
-            <span className="text-[11px] font-bold text-slate-700 truncate">{ship.name}</span>
-            <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{ship.passengers.toLocaleString('en-US')}</span>
-            <span className="text-right text-[11px] font-mono text-blue-700 font-semibold">{fm(ship.revenue)}</span>
-            <span className={`text-center text-[9px] font-bold px-1 py-0.5 rounded ${ship.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{ship.trend}</span>
+          <div key={j} className="flex items-center w-full text-[11px] py-1.5 hover:bg-blue-50/30 border-l-2 border-blue-500 pl-2 rounded whitespace-nowrap overflow-hidden">
+            <div style={{ width: '35%' }} className="text-left font-medium text-slate-700 truncate">{ship.name}</div>
+            <div style={{ width: '18%' }} className="text-right font-mono text-slate-800 font-semibold">{ship.passengers.toLocaleString('en-US')}</div>
+            <div style={{ width: '27%' }} className="text-right font-mono text-blue-700 font-semibold truncate pr-4">{fm(ship.revenue)}</div>
+            <div style={{ width: '20%' }} className="flex justify-center items-center min-w-0">
+              <span className={`inline-block text-center px-1 py-0.5 rounded text-[10px] font-bold truncate ${ship.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{ship.trend}</span>
+            </div>
           </div>
         ))}
-        <div className="grid grid-cols-[1fr_70px_100px_70px] items-center py-1.5 mt-1 border-t border-slate-200 bg-slate-50 rounded">
-          <span className="text-[11px] font-bold text-slate-800">小计</span>
-          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{haishangyouShips.reduce((s, ship) => s + ship.passengers, 0).toLocaleString('en-US')}</span>
-          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{fm(haishangyouShips.reduce((s, ship) => s + ship.revenue, 0))}</span>
-          <span></span>
+        {/* 小计行 */}
+        <div className="flex items-center w-full text-[11px] mt-1 border-t border-slate-100 bg-slate-50 py-1.5 rounded whitespace-nowrap">
+          <div style={{ width: '35%' }} className="text-left font-bold text-slate-800 pl-1">小计</div>
+          <div style={{ width: '18%' }} className="text-right font-extrabold text-slate-800 font-mono">{haishangyouShips.reduce((s, ship) => s + ship.passengers, 0).toLocaleString('en-US')}</div>
+          <div style={{ width: '27%' }} className="text-right font-extrabold text-slate-800 font-mono pr-4">{fm(haishangyouShips.reduce((s, ship) => s + ship.revenue, 0))}</div>
+          <div style={{ width: '20%' }}></div>
         </div>
       </div>
 

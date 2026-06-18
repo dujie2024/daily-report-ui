@@ -53,36 +53,6 @@ export const LangtaoshaCompany = ({
           </div>
         </div>
 
-        {/* 商铺数 + 出租率 - 两排 */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-slate-400 text-[10px] font-bold">商铺数</span>
-              <div className="w-5 h-5 rounded-full bg-orange-50 flex items-center justify-center text-orange-500">
-                <Store className="w-3 h-3" />
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-slate-800 text-base font-black tracking-tight font-mono">{totalShopCount}</span>
-            </div>
-          </div>
-
-          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-slate-400 text-[10px] font-bold">出租率</span>
-              <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-                <Activity className="w-3 h-3" />
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-slate-800 text-base font-black tracking-tight font-mono">{Math.round(fixedRentCount / totalShopCount * 100)}%</span>
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
-                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-                同比 +3.2%
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* 月度计划达成 */}
@@ -124,29 +94,37 @@ export const LangtaoshaCompany = ({
 
       {/* === 主营业态收入（3列）=== */}
       <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100">
-        <div className="flex items-center gap-1.5 mb-2">
+        <div className="flex items-center gap-1.5 mb-2.5">
           <span className="w-1 h-3.5 bg-purple-600 rounded-full shrink-0"></span>
           <h3 className="text-slate-800 text-xs font-bold">主营业态收入（{dl}）</h3>
         </div>
-        <div className="grid grid-cols-[1fr_100px_70px] text-[10px] text-slate-500 font-bold mb-1 pb-1.5 border-b border-slate-200">
-          <div>业态</div>
-          <div className="text-right">收入金额</div>
-          <div className="text-center">同比</div>
+        {/* 表头行 - 目标顺序：业态(35%) -> 收入金额(40%) -> 同比(25%) */}
+        <div className="flex items-center w-full text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
+          <div style={{ width: '35%' }} className="text-left">业态</div>
+          <div style={{ width: '40%' }} className="text-right pr-4">收入金额</div>
+          <div style={{ width: '25%' }} className="text-center">同比</div>
         </div>
+        {/* 数据行 - 严格对应比例与顺序 */}
         {langtaoshaRevenueStructure.map((d, j) => (
-          <div key={j} className="grid grid-cols-[1fr_100px_70px] items-center py-1.5 hover:bg-slate-50 rounded">
-            <div className="flex items-center gap-1.5">
+          <div key={j} className="flex items-center w-full text-[11px] py-1.5 hover:bg-slate-50 rounded whitespace-nowrap overflow-hidden">
+            {/* 第1列：业态名称（35%） */}
+            <div style={{ width: '35%' }} className="text-left flex items-center gap-1 min-w-0">
               <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: d.color }}></span>
-              <span className="text-[11px] font-bold text-slate-700 truncate">{d.name}</span>
+              <span className="text-slate-700 font-medium truncate">{d.name}</span>
             </div>
-            <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{fm(d.value)}</span>
-            <span className={`text-center text-[9px] font-bold px-1 py-0.5 rounded ${d.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{d.trend}</span>
+            {/* 第2列：数字金额（40% 靠右对齐，带右边距防止和同比贴太紧） */}
+            <div style={{ width: '40%' }} className="text-right font-semibold text-slate-800 font-mono truncate pr-4">{fm(d.value)}</div>
+            {/* 第3列：同比标签（25% 居中对齐） */}
+            <div style={{ width: '25%' }} className="flex justify-center items-center min-w-0">
+              <span className={`inline-block text-center px-1 py-0.5 rounded text-[10px] font-bold truncate ${d.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{d.trend}</span>
+            </div>
           </div>
         ))}
-        <div className="grid grid-cols-[1fr_100px_70px] items-center py-1.5 mt-1 border-t border-slate-200 bg-slate-50 rounded">
-          <span className="text-[11px] font-bold text-slate-800">小计</span>
-          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{fm(revenueSubtotal)}</span>
-          <span></span>
+        {/* 小计行 - 严格对应比例与顺序 */}
+        <div className="flex items-center w-full text-[11px] mt-1 border-t border-slate-100 bg-slate-50 py-1.5 rounded whitespace-nowrap">
+          <div style={{ width: '35%' }} className="text-left font-bold text-slate-800 pl-1">小计</div>
+          <div style={{ width: '40%' }} className="text-right font-extrabold text-slate-800 font-mono pr-4">{fm(revenueSubtotal)}</div>
+          <div style={{ width: '25%' }}></div>
         </div>
       </div>
 
@@ -171,29 +149,26 @@ export const LangtaoshaCompany = ({
         </div>
 
         {/* 表头 */}
-        <div className="grid grid-cols-[1fr_50px_90px_70px] text-[10px] text-slate-500 font-bold mb-1 pb-1 border-b border-slate-200 items-center">
-          <div>商户名称</div>
-          <div className="text-right">笔数</div>
-          <div className="text-right">销售收入</div>
-          <div className="text-center">同比</div>
+        <div className="flex items-center text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
+          <div style={{ width: '50%' }} className="text-left">商户名称</div>
+          <div style={{ width: '20%' }} className="text-right">笔数</div>
+          <div style={{ width: '30%' }} className="text-right">销售收入</div>
         </div>
         {/* 数据行 */}
         <div className="space-y-0.5 max-h-[300px] overflow-y-auto">
           {fpb.map((b, j) => (
-            <div key={j} className="grid grid-cols-[1fr_50px_90px_70px] items-center py-1.5 hover:bg-blue-50/50 border-l-2 border-blue-500 pl-2 rounded">
-              <span className="text-[11px] font-bold text-slate-700 truncate">{b.name}</span>
-              <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{b.transactions.toLocaleString('en-US')}</span>
-              <span className="text-right text-[11px] font-mono text-slate-800 font-semibold">{fm(b.revenue)}</span>
-              <span className={`text-center text-[9px] font-bold px-1 py-0.5 rounded ${b.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{b.trend}</span>
+            <div key={j} className="flex items-center text-[11px] py-1.5 hover:bg-blue-50/50 border-l-2 border-blue-500 pl-2 rounded whitespace-nowrap">
+              <div style={{ width: '50%' }} className="text-left font-bold text-slate-700 truncate">{b.name}</div>
+              <div style={{ width: '20%' }} className="text-right font-mono text-slate-800 font-semibold">{b.transactions.toLocaleString('en-US')}</div>
+              <div style={{ width: '30%' }} className="text-right font-mono text-slate-800 font-semibold">{fm(b.revenue)}</div>
             </div>
           ))}
         </div>
         {/* 小计行 */}
-        <div className="grid grid-cols-[1fr_50px_90px_70px] items-center py-1.5 mt-1 border-t border-slate-200 bg-slate-50 rounded">
-          <span className="text-[11px] font-bold text-slate-800">小计</span>
-          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{shopSubtotalQty.toLocaleString('en-US')}</span>
-          <span className="text-right text-[11px] font-mono text-slate-800 font-extrabold">{fm(shopSubtotalRev)}</span>
-          <span></span>
+        <div className="flex items-center text-[11px] mt-1 border-t border-slate-100 bg-slate-50 py-1.5 px-1 rounded whitespace-nowrap">
+          <div style={{ width: '50%' }} className="text-left font-bold text-slate-800">小计</div>
+          <div style={{ width: '20%' }} className="text-right font-extrabold text-slate-800 font-mono">{shopSubtotalQty.toLocaleString('en-US')}</div>
+          <div style={{ width: '30%' }} className="text-right font-extrabold text-slate-800 font-mono">{fm(shopSubtotalRev)}</div>
         </div>
 
         <div className="mt-2 pt-2 border-t border-slate-100 flex items-center gap-2 text-[10px] text-slate-400">
