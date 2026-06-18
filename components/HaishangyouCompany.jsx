@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DollarSign, Activity, TrendingUp, ThumbsUp } from 'lucide-react';
+import { DollarSign, Activity, TrendingUp, Users, UserCheck } from 'lucide-react';
 
 export const HaishangyouCompany = ({ 
   haishangyouData, 
@@ -47,25 +47,70 @@ export const HaishangyouCompany = ({
     <div className="space-y-4">
       {/* KPI 数据网格 - 紧凑排版 */}
       <div className="space-y-3">
-        {/* 营业收入 (元) - 独占一行 */}
-        <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-slate-400 text-[10px] font-bold">营业收入（元）</span>
-            <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
-              <DollarSign className="w-3 h-3" />
+        {/* 第一排：营业收入 + 总客流 */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-slate-400 text-[10px] font-bold">总收入（元）</span>
+              <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
+                <DollarSign className="w-3 h-3" />
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-slate-800 text-base font-black tracking-tight font-mono">{haishangyouData.revenue}</span>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
+                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
+                同比 {haishangyouData.revenueTrend}
+              </span>
             </div>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-slate-800 text-base font-black tracking-tight font-mono">{haishangyouData.revenue}</span>
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
-              <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-              同比 {haishangyouData.revenueTrend}
-            </span>
+
+          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-slate-400 text-[10px] font-bold">总客流（人次）</span>
+              <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
+                <Users className="w-3 h-3" />
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-slate-800 text-base font-black tracking-tight font-mono">{haishangyouData.visitors}</span>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
+                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
+                同比 {haishangyouData.visitorsTrend}
+              </span>
+            </div>
           </div>
         </div>
 
+        {/* 第二排：收费客流 + 接待客流（无同比） */}
         <div className="grid grid-cols-2 gap-3">
-          {/* 总航次 */}
+          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-slate-400 text-[10px] font-bold">收费客流（人次）</span>
+              <div className="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500">
+                <Activity className="w-3 h-3" />
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-slate-800 text-base font-black tracking-tight font-mono">{haishangyouData.paidVisitors}</span>
+            </div>
+          </div>
+
+          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-slate-400 text-[10px] font-bold">接待客流（人次）</span>
+              <div className="w-5 h-5 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
+                <UserCheck className="w-3 h-3" />
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-slate-800 text-base font-black tracking-tight font-mono">{haishangyouData.receptionVisitors}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* 第三排：总航次 + 客单价 */}
+        <div className="grid grid-cols-2 gap-3">
           <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-1.5">
               <span className="text-slate-400 text-[10px] font-bold">总航次</span>
@@ -82,7 +127,6 @@ export const HaishangyouCompany = ({
             </div>
           </div>
 
-          {/* 客单价 */}
           <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-1.5">
               <span className="text-slate-400 text-[10px] font-bold">客单价</span>
@@ -95,41 +139,6 @@ export const HaishangyouCompany = ({
               <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-amber-50 text-amber-600 whitespace-nowrap">
                 <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
                 同比 {haishangyouData.avgPriceTrend}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* 航次客员 + 好评率 - 同一行 */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-slate-400 text-[10px] font-bold">航次客员</span>
-              <div className="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500">
-                <Activity className="w-3 h-3" />
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-slate-800 text-base font-black tracking-tight font-mono">{fm(haishangyouData.rawVisitors)}</span>
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-indigo-50 text-indigo-600 whitespace-nowrap">
-                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-                同比 +6.5%
-              </span>
-            </div>
-          </div>
-
-          <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-slate-400 text-[10px] font-bold">好评率</span>
-              <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
-                <ThumbsUp className="w-3 h-3" />
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-slate-800 text-base font-black tracking-tight font-mono">98.5%</span>
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-600 whitespace-nowrap">
-                <TrendingUp className="w-2.5 h-2.5 mr-0.5" />
-                同比 +1.2%
               </span>
             </div>
           </div>
@@ -230,35 +239,20 @@ export const HaishangyouCompany = ({
             <div className="flex items-center gap-2 mb-2">
               <span className="w-1 h-3.5 bg-cyan-600 rounded-full shrink-0"></span>
               <h3 className="text-slate-800 text-xs font-bold">{ship.name} - 渠道销售情况（{dl}）</h3>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-50 text-cyan-700 font-bold ml-auto">{ship.type}</span>
             </div>
 
-            {/* 游船核心指标：紧凑一排 */}
-            <div className="flex items-center gap-2 mb-3 p-2 bg-gradient-to-r from-cyan-50/50 to-transparent rounded-lg border-l-3 border-cyan-500">
-              <div className="flex-1 text-center">
-                <div className="text-[9px] text-slate-500 font-bold">载客量</div>
-                <div className="text-sm font-black text-slate-800 font-mono">{ship.capacity}人</div>
+            {/* 游船核心指标：仅保留航次和客单价，文字在左数据在右 */}
+            <div className="grid grid-cols-2 gap-3 mb-3">
+              <div className="bg-white/60 p-2.5 rounded-xl border border-cyan-100">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-slate-500 font-bold">航次</span>
+                  <span className="text-sm font-black text-slate-800 font-mono">{ship.trips}次</span>
+                </div>
               </div>
-              <div className="flex-1 text-center">
-                <div className="text-[9px] text-slate-500 font-bold">航次</div>
-                <div className="text-sm font-black text-slate-800 font-mono">{ship.trips}次</div>
-              </div>
-              <div className="flex-1 text-center">
-                <div className="text-[9px] text-slate-500 font-bold">客流量</div>
-                <div className="text-sm font-black text-slate-800 font-mono">{ship.passengers.toLocaleString('en-US')}</div>
-              </div>
-              <div className="flex-1 text-center">
-                <div className="text-[9px] text-slate-500 font-bold">总收入</div>
-                <div className="text-sm font-black text-cyan-700 font-mono">{fm(ship.revenue)}</div>
-              </div>
-              <div className="flex-1 text-center">
-                <div className="text-[9px] text-slate-500 font-bold">客单价</div>
-                <div className="text-sm font-black text-amber-700 font-mono">{ship.avgPrice}</div>
-              </div>
-              <div className="flex-1 text-center">
-                <div className="text-[9px] text-slate-500 font-bold">增长</div>
-                <div className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-50 text-emerald-600">
-                  <TrendingUp className="w-2 h-2 mr-0.5" />{ship.trend}
+              <div className="bg-white/60 p-2.5 rounded-xl border border-amber-100">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-slate-500 font-bold">客单价</span>
+                  <span className="text-sm font-black text-amber-700 font-mono">{ship.avgPrice}</span>
                 </div>
               </div>
             </div>
@@ -290,40 +284,6 @@ export const HaishangyouCompany = ({
           </div>
         );
       })}
-
-      {/* === 游船分项收入情况 === */}
-      <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100">
-        <div className="flex items-center gap-1.5 mb-2">
-          <span className="w-1 h-3.5 bg-blue-600 rounded-full shrink-0"></span>
-          <h3 className="text-slate-800 text-xs font-bold">游船分项收入情况（{dl}）</h3>
-          <span className="text-[10px] text-slate-400 ml-auto">共 {haishangyouShips.length} 艘</span>
-        </div>
-        {/* 表头 */}
-        <div className="flex items-center w-full text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
-          <div style={{ width: '35%' }} className="text-left">游船名称</div>
-          <div style={{ width: '18%' }} className="text-right">客流量</div>
-          <div style={{ width: '27%' }} className="text-right pr-4">收入金额</div>
-          <div style={{ width: '20%' }} className="text-center">同比</div>
-        </div>
-        {/* 数据行 */}
-        {haishangyouShips.map((ship, j) => (
-          <div key={j} className="flex items-center w-full text-[11px] py-1.5 hover:bg-blue-50/30 border-l-2 border-blue-500 pl-2 rounded whitespace-nowrap overflow-hidden">
-            <div style={{ width: '35%' }} className="text-left font-medium text-slate-700 truncate">{ship.name}</div>
-            <div style={{ width: '18%' }} className="text-right font-mono text-slate-800 font-semibold">{ship.passengers.toLocaleString('en-US')}</div>
-            <div style={{ width: '27%' }} className="text-right font-mono text-blue-700 font-semibold truncate pr-4">{fm(ship.revenue)}</div>
-            <div style={{ width: '20%' }} className="flex justify-center items-center min-w-0">
-              <span className={`inline-block text-center px-1 py-0.5 rounded text-[10px] font-bold truncate ${ship.isUp ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{ship.trend}</span>
-            </div>
-          </div>
-        ))}
-        {/* 小计行 */}
-        <div className="flex items-center w-full text-[11px] mt-1 border-t border-slate-100 bg-slate-50 py-1.5 rounded whitespace-nowrap">
-          <div style={{ width: '35%' }} className="text-left font-bold text-slate-800 pl-1">小计</div>
-          <div style={{ width: '18%' }} className="text-right font-extrabold text-slate-800 font-mono">{haishangyouShips.reduce((s, ship) => s + ship.passengers, 0).toLocaleString('en-US')}</div>
-          <div style={{ width: '27%' }} className="text-right font-extrabold text-slate-800 font-mono pr-4">{fm(haishangyouShips.reduce((s, ship) => s + ship.revenue, 0))}</div>
-          <div style={{ width: '20%' }}></div>
-        </div>
-      </div>
 
       {userRole === 'admin' && (
         <button 
