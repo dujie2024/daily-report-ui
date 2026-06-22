@@ -1371,7 +1371,7 @@ export default function App() {
             {/* 2.2 数据维度控制 与 可交互日期 (仅非业务分析页面显示此条，分析页内有专属标题控制) */}
             {activeTab !== 'analysis' && (
               <div className="bg-white px-4 py-3 border-b border-slate-100 shadow-sm shrink-0">
-                {/* 标题行：动态模块名称 + 数据日期 */}
+                {/* 标题行：动态模块名称 */}
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-3.5 bg-blue-600 rounded-full"></span>
@@ -1379,19 +1379,28 @@ export default function App() {
                       {activeTab === 'platform' ? '旅游港经营总览' : activeTab === 'zushan' ? '祖山景区经营看板' : activeTab === 'xiaozhen' ? '天女小镇经营看板' : activeTab === 'haishangyou' ? '海上游经营看板' : activeTab === 'langtaosha' ? '浪淘沙经营看板' : activeTab === 'qihang' ? '启航公司经营看板' : '经营看板'}
                     </h2>
                   </div>
-                  <div 
-                    onClick={() => setIsDatePickerOpen(true)}
-                    className="flex items-center gap-1.5 text-slate-500 text-xs bg-blue-50/40 px-2.5 py-1.5 rounded-lg cursor-pointer hover:bg-blue-50/70 active:scale-[0.99] transition-all border border-blue-50"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping"></span>
-                    <span className="font-extrabold tracking-wide text-[10px] font-mono text-slate-700">{currentData.dateRange}</span>
-                    <ChevronRight className="w-3 h-3 text-blue-400" />
+                  <div className="flex items-center gap-2">
+                    <div 
+                      onClick={() => setIsDatePickerOpen(true)}
+                      className="flex items-center gap-1.5 text-slate-500 text-xs bg-blue-50/40 px-2.5 py-1.5 rounded-lg cursor-pointer hover:bg-blue-50/70 active:scale-[0.99] transition-all border border-blue-50"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping"></span>
+                      <span className="font-extrabold tracking-wide text-[10px] font-mono text-slate-700">{currentData.dateRange}</span>
+                      <ChevronRight className="w-3 h-3 text-blue-400" />
+                    </div>
+                    <button 
+                      onClick={() => setIsDatePickerOpen(true)}
+                      className="flex items-center gap-1 px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-600 text-xs font-bold border border-blue-100 transition-all shadow-sm"
+                    >
+                      <Calendar className="w-3.5 h-3.5" />
+                      <span>筛选</span>
+                    </button>
                   </div>
                 </div>
 
-                {/* 维度切换和筛选按钮 */}
+                {/* 维度切换 */}
                 <div className="flex items-center justify-between">
-                  <div className="bg-slate-100 p-0.5 rounded-xl flex-1 mr-2 flex shadow-inner">
+                  <div className="bg-slate-100 p-0.5 rounded-xl flex-1 flex shadow-inner">
                     <button 
                       onClick={() => setDimension('day')}
                       className={`flex-1 text-center py-1.5 text-[10px] font-bold rounded-lg transition-all ${dimension === 'day' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
@@ -1411,14 +1420,6 @@ export default function App() {
                       本年数据
                     </button>
                   </div>
-
-                  <button 
-                    onClick={() => setIsDatePickerOpen(true)}
-                    className="flex items-center gap-1 px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-600 text-xs font-bold border border-blue-100 transition-all shadow-sm"
-                  >
-                    <Calendar className="w-3.5 h-3.5" />
-                    <span>筛选</span>
-                  </button>
                 </div>
               </div>
             )}
