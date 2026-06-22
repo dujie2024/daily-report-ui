@@ -128,48 +128,105 @@ export const LangtaoshaCompany = ({
         </div>
       </div>
 
-      {/* === 商铺销售情况（4列: 商户名称 | 业态 | 交易笔数 | 销售收入 | 同比）=== */}
+      {/* === 联营商业经营情况 === */}
       <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100">
         <div className="flex items-center gap-1.5 mb-2">
           <span className="w-1 h-3.5 bg-blue-600 rounded-full shrink-0"></span>
-          <h3 className="text-slate-800 text-xs font-bold">商铺销售情况（{dl}）</h3>
-          <span className="text-[10px] text-slate-400 ml-auto">共 {fpb.length} 家</span>
+          <h3 className="text-slate-800 text-xs font-bold">联营商业经营情况</h3>
+          <span className="text-[10px] text-slate-400 ml-auto">共 {fpb.length} 家商户</span>
         </div>
 
         {/* 标签页筛选 */}
         <div className="flex gap-1.5 mb-3 p-1 bg-slate-100 rounded-lg">
           {[
-            {k:'mixed',l:'保底+流水分成',c:'bg-purple-600'},
-            {k:'direct',l:'直接分成',c:'bg-emerald-600'},
-            {k:'fixed',l:'固定租金',c:'bg-blue-600'},
+            {k:'mixed',l:'保底+流水分成模式',c:'bg-purple-600'},
+            {k:'direct',l:'流水分成模式',c:'bg-emerald-600'},
+            {k:'fixed',l:'固定租金模式',c:'bg-blue-600'},
           ].map(t => (
             <button key={t.k} onClick={()=>setPf(t.k)}
-              className={`flex-1 px-2 py-2 rounded-md text-[11px] font-bold transition-all ${pf===t.k?`${t.c} text-white shadow-md`:'text-slate-500 hover:text-slate-700 hover:bg-slate-200'}`}>{t.l}</button>
+              className={`flex-1 px-2 py-2 rounded-md text-[10px] font-bold transition-all ${pf===t.k?`${t.c} text-white shadow-md`:'text-slate-500 hover:text-slate-700 hover:bg-slate-200'}`}>{t.l}</button>
           ))}
         </div>
 
-        {/* 表头 */}
-        <div className="flex items-center text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
-          <div style={{ width: '50%' }} className="text-left">商户名称</div>
-          <div style={{ width: '20%' }} className="text-right">笔数</div>
-          <div style={{ width: '30%' }} className="text-right">销售收入</div>
-        </div>
-        {/* 数据行 */}
-        <div className="space-y-0.5 max-h-[300px] overflow-y-auto">
-          {fpb.map((b, j) => (
-            <div key={j} className="flex items-center text-[11px] py-1.5 hover:bg-blue-50/50 border-l-2 border-blue-500 pl-2 rounded whitespace-nowrap">
-              <div style={{ width: '50%' }} className="text-left font-bold text-slate-700 truncate">{b.name}</div>
-              <div style={{ width: '20%' }} className="text-right font-mono text-slate-800 font-semibold">{b.transactions.toLocaleString('en-US')}</div>
-              <div style={{ width: '30%' }} className="text-right font-mono text-slate-800 font-semibold">{fm(b.revenue)}</div>
+        {pf==='mixed' && (
+          <>
+            <div className="flex items-center w-full text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
+              <div style={{ width: '20%' }} className="text-left">商户名称</div>
+              <div style={{ width: '18%' }} className="text-right">经营流水</div>
+              <div style={{ width: '18%' }} className="text-right">租金收入</div>
+              <div style={{ width: '18%' }} className="text-right">我方分成金额</div>
+              <div style={{ width: '15%' }} className="text-center">协议摘要</div>
             </div>
-          ))}
-        </div>
-        {/* 小计行 */}
-        <div className="flex items-center text-[11px] mt-1 border-t border-slate-100 bg-slate-50 py-1.5 px-1 rounded whitespace-nowrap">
-          <div style={{ width: '50%' }} className="text-left font-bold text-slate-800">小计</div>
-          <div style={{ width: '20%' }} className="text-right font-extrabold text-slate-800 font-mono">{shopSubtotalQty.toLocaleString('en-US')}</div>
-          <div style={{ width: '30%' }} className="text-right font-extrabold text-slate-800 font-mono">{fm(shopSubtotalRev)}</div>
-        </div>
+            {fpb.map((b,j) => (
+              <div key={j} className="flex items-center w-full text-[11px] py-1.5 border-l-2 pl-2 rounded whitespace-nowrap overflow-hidden hover:bg-purple-50/50 border-purple-500">
+                <div style={{ width: '20%' }} className="text-left font-medium text-slate-700 truncate">{b.name}</div>
+                <div style={{ width: '18%' }} className="text-right font-mono text-slate-800 font-semibold">{fm(b.revenue)}</div>
+                <div style={{ width: '18%' }} className="text-right font-mono text-blue-700 font-semibold">50,000</div>
+                <div style={{ width: '18%', color: '#7c3aed' }} className="text-right font-mono font-semibold">{fm(b.revenue * 0.2)}</div>
+                <div style={{ width: '15%' }} className="text-center">
+                  <button 
+                    onClick={() => alert('协议信息：\n合同有效期：2024-01-01 至 2026-12-31\n保底租金：50,000元/月\n保底流水：100,000元/月\n超出部分分成比例：20%')}
+                    className="text-blue-600 hover:text-blue-700 text-[10px] font-semibold underline"
+                  >
+                    查看
+                  </button>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+
+        {pf==='direct' && (
+          <>
+            <div className="flex items-center w-full text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
+              <div style={{ width: '23%' }} className="text-left">商户名称</div>
+              <div style={{ width: '20%' }} className="text-right">经营流水</div>
+              <div style={{ width: '20%' }} className="text-right">我方分成金额</div>
+              <div style={{ width: '13%' }} className="text-center">分成比例</div>
+              <div style={{ width: '16%' }} className="text-center">协议摘要</div>
+            </div>
+            {fpb.map((b,j) => (
+              <div key={j} className="flex items-center w-full text-[11px] py-1.5 border-l-2 pl-2 rounded whitespace-nowrap overflow-hidden hover:bg-emerald-50/50 border-emerald-500">
+                <div style={{ width: '23%' }} className="text-left font-medium text-slate-700 truncate">{b.name}</div>
+                <div style={{ width: '20%' }} className="text-right font-mono text-slate-800 font-semibold">{fm(b.revenue)}</div>
+                <div style={{ width: '20%', color: '#059669' }} className="text-right font-mono font-semibold">{fm(b.revenue * 0.15)}</div>
+                <div style={{ width: '13%' }} className="text-center font-bold text-emerald-700">15%</div>
+                <div style={{ width: '16%' }} className="text-center">
+                  <button 
+                    onClick={() => alert('协议信息：\n合同有效期：2024-01-01 至 2026-12-31\n流水分成比例：15%')}
+                    className="text-blue-600 hover:text-blue-700 text-[10px] font-semibold underline"
+                  >
+                    查看
+                  </button>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+
+        {pf==='fixed' && (
+          <>
+            <div className="flex items-center w-full text-[10px] text-slate-400 font-bold mb-1 pb-1.5 border-b border-slate-100 whitespace-nowrap">
+              <div style={{ width: '30%' }} className="text-left">商户名称</div>
+              <div style={{ width: '25%' }} className="text-right">租金收入</div>
+              <div style={{ width: '20%' }} className="text-center">协议摘要</div>
+            </div>
+            {fpb.map((b,j) => (
+              <div key={j} className="flex items-center w-full text-[11px] py-1.5 hover:bg-blue-50/50 border-l-2 border-blue-500 pl-2 rounded whitespace-nowrap overflow-hidden">
+                <div style={{ width: '30%' }} className="text-left font-medium text-slate-700 truncate">{b.name}</div>
+                <div style={{ width: '25%' }} className="text-right font-mono text-blue-700 font-semibold">{fm(b.revenue)}</div>
+                <div style={{ width: '20%' }} className="text-center">
+                  <button 
+                    onClick={() => alert('协议信息：\n合同有效期：2024-01-01 至 2026-12-31\n固定租金：30,000元/月')}
+                    className="text-blue-600 hover:text-blue-700 text-[10px] font-semibold underline"
+                  >
+                    查看
+                  </button>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
 
         <div className="mt-2 pt-2 border-t border-slate-100 flex items-center gap-2 text-[10px] text-slate-400">
           <span className="w-2 h-2 rounded-sm bg-blue-500"></span>
