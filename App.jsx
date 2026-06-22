@@ -1368,8 +1368,8 @@ export default function App() {
               </div>
             </header>
 
-            {/* 2.2 数据维度控制 与 可交互日期 (仅非业务分析页面显示此条，分析页内有专属标题控制) */}
-            {activeTab !== 'analysis' && (
+            {/* 2.2 数据维度控制 与 可交互日期 (仅经营看板页面显示，排除业务分析和个人中心) */}
+            {activeTab !== 'analysis' && activeTab !== 'mine' && (
               <div className="bg-white px-4 py-3 border-b border-slate-100 shadow-sm shrink-0">
                 {/* 标题行：动态模块名称 */}
                 <div className="flex items-center justify-between mb-2">
@@ -2025,49 +2025,20 @@ export default function App() {
               )}
 
 
-              {/* 我的/关于 */}
+              {/* 我的/个人中心 */}
               {activeTab === 'mine' && (
                 <div className="space-y-4">
-                  {/* 用户信息卡片 */}
+                  {/* 用户信息卡片 - 精简版 */}
                   <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center">
                     <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-3">
                       <User className="w-8 h-8" />
                     </div>
-                    <h3 className="text-slate-800 text-base font-bold">{username || 'admin'}</h3>
+                    <h3 className="text-slate-800 text-base font-bold">{username || 'ceo_xinchao'}</h3>
                     <p className="text-slate-400 text-xs mt-1">{getRoleName(userRole)}</p>
-
-                    <div className="w-full border-t border-slate-100 my-4 pt-4 grid grid-cols-2 gap-2 text-left">
-                      <div className="bg-slate-50 p-2.5 rounded-xl">
-                        <span className="text-[10px] text-slate-400 block">系统状态</span>
-                        <span className="text-xs font-bold text-emerald-600 flex items-center gap-1 mt-0.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                          在线
-                        </span>
-                      </div>
-                      <div className="bg-slate-50 p-2.5 rounded-xl">
-                        <span className="text-[10px] text-slate-400 block">数据同步</span>
-                        <span className="text-xs font-bold text-blue-600 flex items-center gap-1 mt-0.5">
-                          实时联动
-                        </span>
-                      </div>
-                    </div>
                   </div>
 
-                  {/* 功能菜单 */}
+                  {/* 功能菜单 - 精简为2项 */}
                   <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-                    <button 
-                      onClick={() => triggerAlert('账户设置功能开发中')}
-                      className="w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-all border-b border-slate-100"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
-                          <User className="w-4 h-4" />
-                        </div>
-                        <span className="text-sm font-semibold text-slate-700">账户设置</span>
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-slate-400" />
-                    </button>
-
                     <button 
                       onClick={() => triggerAlert('通知中心功能开发中')}
                       className="w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-all border-b border-slate-100"
@@ -2085,40 +2056,25 @@ export default function App() {
                     </button>
 
                     <button 
-                      onClick={() => triggerAlert('帮助中心功能开发中')}
-                      className="w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-all border-b border-slate-100"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
-                          <HelpCircle className="w-4 h-4" />
-                        </div>
-                        <span className="text-sm font-semibold text-slate-700">帮助中心</span>
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-slate-400" />
-                    </button>
-
-                    <button 
-                      onClick={() => triggerAlert('系统设置功能开发中')}
+                      onClick={() => triggerAlert('密码修改功能开发中')}
                       className="w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-all"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-600">
-                          <Settings className="w-4 h-4" />
+                        <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                          <Lock className="w-4 h-4" />
                         </div>
-                        <span className="text-sm font-semibold text-slate-700">系统设置</span>
+                        <span className="text-sm font-semibold text-slate-700">密码修改</span>
                       </div>
                       <ChevronRight className="w-4 h-4 text-slate-400" />
                     </button>
                   </div>
 
-                  {/* 退出登录按钮 */}
-                  <button 
-                    onClick={handleLogout}
-                    className="w-full bg-white hover:bg-rose-50 text-rose-600 py-3.5 rounded-2xl text-sm font-bold transition-all flex justify-center items-center gap-2 border border-slate-100 shadow-sm"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    退出登录
-                  </button>
+                  {/* 温馨提示 */}
+                  <div className="bg-amber-50 p-3 rounded-xl border border-amber-100">
+                    <p className="text-xs text-amber-800 leading-relaxed">
+                      <span className="font-bold">温馨提示：</span>如忘记密码，请联系系统管理员进行密码初始化。
+                    </p>
+                  </div>
 
                   {/* 关于信息 */}
                   <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 text-center">
@@ -2131,6 +2087,15 @@ export default function App() {
                       技术支持：北京华景乐游科技股份有限公司
                     </div>
                   </div>
+
+                  {/* 退出登录按钮 - 置底 */}
+                  <button 
+                    onClick={handleLogout}
+                    className="w-full bg-slate-50 hover:bg-slate-100 text-slate-600 py-3 rounded-xl text-sm font-semibold transition-all flex justify-center items-center gap-2 border border-slate-200"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    退出登录
+                  </button>
                 </div>
               )}
 
